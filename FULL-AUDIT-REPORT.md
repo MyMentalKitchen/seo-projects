@@ -1,304 +1,351 @@
-# Full SEO Audit Report: The Gipsy Hill Smokehouse
+# Full SEO Audit Report: Sicily4U
 
-**URL:** https://www.thegipsyhillsmokehouse.com  
+**URL:** https://www.sicily4u.co.uk  
 **Date:** 2026-04-12  
-**Business Type Detected:** Local Service / Catering (Hog Roast & BBQ, London, UK)  
-**Platform:** Wix.com Website Builder  
-**Pages Discovered:** ~32 pages  
-**SEO Health Score: 46/100**
+**Business Type Detected:** Vacation Villa Rental Agency (Sicily, Italy -- company based in Tagerwilen, Switzerland)  
+**Platform:** Custom-built (Node.js / server-rendered with client-side enhancements)  
+**Pages Discovered:** ~100 pages (32 destination/location pages, ~30 villa detail pages, ~20 category/filter pages, ~10 info/guide pages, ~8 utility pages)  
+**SEO Health Score: 38/100**
 
 ---
 
 ## Executive Summary
 
-The Gipsy Hill Smokehouse is a well-established hog roast and BBQ catering business in London with nearly 20 years of experience. The website has good foundational content and decent imagery, but suffers from several **critical SEO issues** that are likely suppressing search visibility significantly.
+Sicily4U is an established luxury villa rental specialist operating since 2004, with a Trustpilot rating of 4 stars from 15 reviews. The website has strong destination content on some pages (Sicily main page: 16,000+ words, Taormina: 12,000+ words) and a well-organised URL structure. However, the site suffers from **severe technical SEO issues** that are almost certainly suppressing search visibility dramatically.
+
+The most damaging issue is a **hardcoded viewport width of 1250px across the entire site**, which fails Google's mobile-first indexing requirements. Combined with broken canonical URLs, empty title tags, duplicate meta data, and inconsistent schema markup, the site is significantly underperforming its potential.
 
 ### Top 5 Critical Issues
 
-1. **Homepage title tag is broken** -- renders as `(1)` due to WhatsApp chat widget overriding the `<title>` element
-2. **Private Parties page has `noindex, nofollow`** -- a key service page is completely blocked from search engines
-3. **Zero structured data (JSON-LD)** -- no LocalBusiness, CateringBusiness, Review, or any schema markup detected
-4. **No Google Business Profile schema integration** -- critical for a local service business
-5. **Blog content is thin** -- most posts are 300-500 words with minimal depth
+1. **Viewport meta tag hardcoded to `width=1250` on every page** -- fails mobile usability completely, devastating under Google's mobile-first indexing
+2. **Empty `<title>` tags** on "Who Are We" and "Owner Registration" pages -- Google will auto-generate titles, typically poorly
+3. **Wrong canonical URLs** on at least 3 key pages (who-are-we, owner-registration, contact) -- all point to the homepage instead of themselves, causing Google to ignore these pages
+4. **Villa detail pages have ~80% of images missing alt text** (30 of 38 on sampled villa) -- massive image SEO and accessibility failure
+5. **Misleading/fake structured data** -- Product schema with 100 fabricated ratings on /pool page; AggregateRating with 0 reviews on /last-minute; risks Google manual action
 
 ### Top 5 Quick Wins
 
-1. Fix the homepage `<title>` tag (chat widget conflict) -- immediate ranking recovery
-2. Remove `noindex,nofollow` from the Private Parties page
-3. Add LocalBusiness + CateringBusiness JSON-LD schema to all pages
-4. Add Review/AggregateRating schema to the testimonials page
-5. Fix inconsistent email addresses (`timclements@thegipsyhillsmokehouse.com` vs `timclements@gipsyhillsmokehouse.com`)
+1. Fix the viewport meta tag to `width=device-width, initial-scale=1.0` site-wide -- immediate mobile ranking recovery
+2. Fix canonical URLs on who-are-we, owner-registration, and contact pages to point to themselves
+3. Add unique `<title>` tags to all pages with empty or generic titles (at least 6 pages affected)
+4. Remove the fake AggregateRating schema from /pool and /last-minute pages
+5. Fix the OG description typo ("isr" -> "is") on the homepage
 
 ---
 
-## Technical SEO (Score: 45/100 | Weight: 22%)
+## Technical SEO (Score: 30/100 | Weight: 25%)
 
 ### Crawlability
 
 | Check | Status | Notes |
 |-------|--------|-------|
-| robots.txt | Present | Sitemap declared; excessive bot blocking (100+ user-agents) |
-| XML Sitemap | Present | 3 sub-sitemaps (booking-services, restaurants-menu, pages) |
-| HTTPS | Yes | SSL active |
-| Google Verification | Yes | `mTKqnmAyleGZ-BbxJFH0myG0ZBWf150zeQ7ukJFp8Aw` |
-| Bing Verification | Yes | Two verification codes present |
-| Wix JS Rendering | Concern | Heavy client-side rendering may impact crawl budget |
+| robots.txt | Present | Simple: `User-agent: * Allow: /` with sitemap declared |
+| XML Sitemap | Present | `sitemap_gb.xml?lang=gb` declared (403 when accessed externally -- may need authentication) |
+| HTTPS | Yes | SSL active on www.sicily4u.co.uk |
+| Google Verification | Yes | Two verification codes present (`OoLZToOo...` and `2w2AsUCZ...`) |
+| HTTP/2 | Yes | Content-Type: `text/html; charset=utf-8` |
+| Server Rendering | Good | Server-side rendered HTML (not a pure SPA) |
 
-### Indexability Issues
+### Critical: Mobile Usability Failure
 
-| Issue | Severity | Page |
-|-------|----------|------|
-| `noindex,nofollow` on Private Parties page | CRITICAL | `/private-parties` |
-| Homepage `<title>` overridden by chat widget | CRITICAL | `/` (renders as "(1)") |
-| Duplicate viewport meta tags | Medium | Multiple pages have 2-3 viewport tags |
-| Duplicate `og:type` values | Low | `/private-parties` has `og:type` listed twice |
-| Duplicate `og:title` / `og:description` values | Low | `/private-parties` has duplicate OG tags from embedded form |
+| Issue | Severity | Scope |
+|-------|----------|-------|
+| `<meta name="viewport" content="width=1250">` | **CRITICAL** | **Every page on the site** |
+
+The viewport is hardcoded to a fixed width of 1250 pixels on **every single page**. This means:
+- The site does **not** pass Google's Mobile-Friendly Test
+- Under Google's **mobile-first indexing** (default since 2023), this devastates rankings
+- Mobile users must pinch-zoom to read any content
+- Google may demote the entire site in mobile search results
+
+**Expected fix:** Change to `<meta name="viewport" content="width=device-width, initial-scale=1.0">` and ensure CSS is responsive.
+
+### Canonical URL Issues
+
+| Page | Canonical URL | Expected | Status |
+|------|--------------|----------|--------|
+| `/villas/who-are-we` | `https://www.sicily4u.co.uk/villas/` | `https://www.sicily4u.co.uk/villas/who-are-we` | **WRONG** |
+| `/villas/owner-registration` | `https://www.sicily4u.co.uk/villas` | `https://www.sicily4u.co.uk/villas/owner-registration` | **WRONG** |
+| `/villas/contact` | `https://www.sicily4u.co.uk` | `https://www.sicily4u.co.uk/villas/contact` | **WRONG** |
+| Homepage `/` | `https://www.sicily4u.co.uk/villas` | `https://www.sicily4u.co.uk/` or `/villas` | Acceptable but inconsistent |
+| `/villas/italy/sicily` | Self-referencing | Correct | OK |
+| `/villas/italy/sicily/taormina` | Self-referencing | Correct | OK |
+| `/villas/beach` | Self-referencing | Correct | OK |
+| `/villas/pool` | Self-referencing | Correct | OK |
+
+Three important pages have canonicals pointing to the homepage, effectively telling Google to **ignore their content entirely**.
+
+### Title Tag Issues
+
+| Page | Title Tag | Issue |
+|------|-----------|-------|
+| `/villas/who-are-we` | `\n\n` (empty) | **CRITICAL** -- No title at all |
+| `/villas/owner-registration` | `\n\n` (empty) | **CRITICAL** -- No title at all |
+| `/villas/suitable-for-weddings` | "Sicily Villas with Pool - Luxury Villas to rent" | Generic -- not wedding-specific |
+| `/villas/for-sale` | "Sicily Villas with Pool - Luxury Villas to rent" | Generic -- identical to weddings page |
+| `/villas/last-minute` | "Sicily Villas with Pool - Luxury Villas to rent" | Generic -- identical to weddings/for-sale |
+| `/villas/pool` | "Villas with Pool Sicily Villas with Pool \| Seafront Villas with Pools to rent" | Keyword-stuffed ("Villas with Pool" x2) |
+| Homepage | "Sicily Villas with Pool \| Villa Rentals Sicily - Sicily4U" | Acceptable |
+| `/villas/italy/sicily` | "Villas in Sicily with pool \| Luxury Sicily villas with pools for rent" | Good |
+| `/villas/italy/sicily/taormina` | "Luxury Villas with Pool in Taormina \| Taormina Villas near the beach" | Good |
+
+### Duplicate Meta Tags
+
+The **contact page** has every OG and Twitter meta tag duplicated (arrays instead of single values):
+- `og:description` appears 2x
+- `og:title` appears 2x  
+- `og:image` appears 2x
+- `og:url` appears 2x
+- `twitter:card` appears 2x
+- `twitter:title` appears 2x
+- `twitter:description` appears 2x
+- `google-site-verification` appears 2x
+- `description` is repeated/concatenated 4 times
+
+Multiple other pages have **concatenated meta descriptions** (same text repeated with a comma separator):
+- Homepage: description repeated 2x with comma
+- `/villas/beach`: description repeated 2x  
+- `/villas/italy/sicily`: description repeated 2x
+- `/villas/italy/sicily/noto`: description repeated 2x
+- `/villas/info/history-of-sicily`: description repeated 2x
 
 ### Security & Headers
 
 | Check | Status |
 |-------|--------|
-| HTTPS | Active |
+| HTTPS | Active on main domain |
 | Mixed Content | Not detected |
-| Content-Type | `text/html; charset=UTF-8` |
+| feedback.sicily4u.co.uk | **HTTP only** (no SSL) -- security risk |
+| Content-Type | `text/html; charset=utf-8` |
 
 ### robots.txt Analysis
 
-- **Good:** Sitemap properly declared, Googlebot allowed with specific exclusions
-- **Concern:** Over 100 user-agents individually blocked -- this is excessive and unnecessary. Most of these are obsolete bots. This bloats the robots.txt file and provides no real benefit.
-- **Concern:** PetalBot (Huawei search) fully blocked -- may limit visibility in some markets
-- **Note:** AhrefsBot and dotbot given crawl-delay of 10 seconds
+- **Good:** Simple and permissive (`Allow: /`)
+- **Good:** Sitemap properly declared
+- **Concern:** Sitemap returns 403 to external crawlers (WebFetch received 403)
+- **Note:** Only one sitemap declared; no separate image or video sitemaps
 
 ---
 
-## Content Quality (Score: 55/100 | Weight: 23%)
+## On-Page SEO (Score: 35/100 | Weight: 25%)
+
+### Heading Structure Issues
+
+| Page | H1 Count | Issue |
+|------|----------|-------|
+| `/villas/pool` | **13** | Massively over-used -- each section uses H1 instead of H2 |
+| `/villas/beach` | **4** | Multiple H1s -- should be single H1 |
+| `/villas/for-sale` | **2** | Two H1 tags |
+| `/villas/last-minute` | **2** | Two H1 tags |
+| `/villas/italy/sicily/noto` | **2** | Two H1 tags |
+| Homepage | 1 | Correct |
+| `/villas/italy/sicily` | 1 | Correct |
+| `/villas/italy/sicily/taormina` | 1 | Correct |
+
+The /pool page is the worst offender with **13 H1 tags**. Every section heading was incorrectly set to H1 instead of using a proper H1 > H2 > H3 hierarchy.
+
+### Meta Keywords
+
+Most pages use the **exact same generic keywords meta tag**:
+```
+sicily co uk, visit and live sicily, visit sicily travel, sicily tourism, luxury beach villas sicily, villas in sicily with pool, sicily holiday rental, rent villa sicily, luxury villa sicily with pool
+```
+
+While meta keywords don't affect Google rankings, this signals a lack of per-page SEO attention. A few pages have customised keywords:
+- `/villas/pool`: Custom pool-related keywords (good)
+- `/villas/beach`: Custom beach-related keywords (good)
+- `/villas/info/history-of-sicily`: Custom history-related keywords (good)
+
+### Image Alt Text
+
+| Page Sampled | Total Images | Missing Alt | % Missing |
+|-------------|-------------|-------------|-----------|
+| Villa Mandralisca (Cefalu) | 38 | 30 | **79%** |
+| Homepage | 41 | 0 | 0% |
+
+Villa detail pages appear to have the vast majority of images **missing alt text**. Given there are ~30 villa pages, this likely affects 900+ images site-wide. This is:
+- A critical accessibility violation (WCAG 2.1)
+- A massive lost opportunity for image search traffic
+- A negative ranking signal
+
+### Social Meta Tag Issues
+
+| Issue | Page | Details |
+|-------|------|---------|
+| HTML in twitter:title | Villa Mandralisca | `"Villa Mandralisca<br><p>in Cefalù"` -- raw HTML renders in social shares |
+| OG description typo | Homepage | `"Sicily4U isr an exclusive"` -- "isr" should be "is" |
+| Duplicate OG/Twitter tags | Contact page | All social tags appear twice |
+| Generic OG image | Multiple info pages | Uses same `luxury_sicily_villas.jpg` instead of page-specific images |
+
+### Template Variable Leak
+
+The Villa Mandralisca page keywords contain: `"tmp_SelectedLocatization"` -- a template/debug variable that has leaked into production meta tags. This likely affects other villa detail pages as well.
+
+---
+
+## Content Quality (Score: 55/100 | Weight: 20%)
 
 ### E-E-A-T Assessment
 
 | Signal | Score | Notes |
 |--------|-------|-------|
-| Experience | Good | 20+ years in business, mentions Borough Market, celebrity clients, specific events |
-| Expertise | Good | Detailed knowledge of porchetta-style cooking, Portuguese cuisine origins |
-| Authoritativeness | Moderate | Notable client mentions (Kensington Palace, Gordon Ramsay, Heston Blumenthal) but no external validation visible |
-| Trustworthiness | Moderate | Testimonials present but use initials only (H.J., C.S., etc.) -- no full names, dates, or verification |
+| Experience | Good | Operating since 2004, 20+ years in Sicily villa rentals |
+| Expertise | Good | Deep destination content on Sicily, Taormina pages; local knowledge evident |
+| Authoritativeness | Moderate | Trustpilot 4-star rating (15 reviews); Tripadvisor forum presence; but limited review volume |
+| Trustworthiness | Moderate | HTTPS, real phone number (+44 203 868 6514), but feedback subdomain on HTTP |
 
 ### Content Depth by Page
 
 | Page | Word Count | Quality |
 |------|-----------|---------|
-| Wedding Caterer (`/hog-roast-wedding-caterer-london`) | ~1,200 | Good -- comprehensive, keyword-rich |
-| Private Parties (`/private-parties`) | ~350 | Thin -- needs expansion |
-| Our Food (`/our-food`) | ~200 | Very Thin -- minimal descriptions |
-| Contact Us (`/contact-us`) | ~50 | Minimal -- just form + phone |
-| Testimonials (`/testimonials`) | ~800 | Moderate -- good social proof but unstructured |
-| Blog posts | 300-500 each | Thin -- lack depth, headers, internal links |
+| `/villas/italy/sicily` | ~16,236 | **Excellent** -- comprehensive destination guide with FAQ |
+| `/villas/italy/sicily/taormina` | ~12,342 | **Excellent** -- detailed destination content |
+| Homepage | ~4,555 | **Good** -- solid landing page content |
+| `/villas/pool` | ~2,303 | **Good** -- decent collection page |
+| `/villas/beach` | ~2,500 | **Good** -- decent collection page |
+| `/villas/info/history-of-sicily` | ~1,924 | **Good** -- informational content |
+| Villa Mandralisca (detail) | ~1,500 | **Moderate** -- could be expanded |
+| `/villas/italy/sicily/noto` | ~1,250 | **Moderate** -- thinner than Taormina |
+| `/villas/owner-registration` | ~887 | **Thin** -- registration page with generic content |
+| `/villas/last-minute` | ~718 | **Thin** -- mostly villa listings, little unique content |
+| `/villas/contact` | ~429 | **Thin** -- just contact info |
+| `/villas/suitable-for-weddings` | ~250 | **Very Thin** -- a wedding page needs far more content |
+| `/villas/for-sale` | ~133 | **Very Thin** -- minimal content |
+| `/villas/who-are-we` | ~35 | **Critically Thin** -- 35 words for an "About Us" page |
 
 ### Content Issues
 
-- **Thin content pages:** Our Food, Contact Us, and several blog posts
-- **Blog posts lack structure:** No H2/H3 subheadings, no bullet points, no internal links to service pages
-- **Testimonials use initials only:** "H.J.", "C.S." -- this reduces trust signals. Full names (with permission) or at minimum first names would be stronger
-- **No FAQ content:** Missing opportunity for FAQ-rich content that targets long-tail queries
-- **No pricing information:** Even approximate pricing ranges would help conversions and target "hog roast cost" queries
+- **"Who Are We" page has only 35 words** -- this is the company's about page and it's essentially empty. This is a huge missed trust-building opportunity.
+- **Wedding page has generic content** -- URL is `/suitable-for-weddings` but title, H1, and content are all generic "Villas with Pool" text. No wedding-specific content at all.
+- **"For Sale" page has generic rental content** -- URL suggests properties for sale but content/title say "Villas to rent". Confusing intent mismatch.
+- **Blog/info section exists** but is not prominently linked from main navigation (found via Google, not via site map)
 
 ---
 
-## On-Page SEO (Score: 50/100 | Weight: 20%)
+## Structured Data / Schema (Score: 25/100 | Weight: 15%)
 
-### Title Tags
+### Schema Markup Inventory
 
-| Page | Title | Issue |
-|------|-------|-------|
-| Homepage | `(1)` | **CRITICAL**: Chat widget overrides real title |
-| Wedding | `Hog Roast Wedding Caterer London, UK - Spit Roasts & Barbecue Catering Services` | Good but long (83 chars) |
-| Our Food | `OUR FOOD \| GipsyHill_Smokehouse` | Poor -- not descriptive, underscore in brand |
-| Contact | `Contact Us \| The Gipsy Hill Smokehouse - Roast Hog` | OK |
-| Testimonials | `Wedding Catering Testimonials \| The Gipsy Hill Smokehouse - Roast Hog` | Good |
-| Private Parties | `Hog Roast Private Party Catering London, UK - Spit Roasts & BBQ Catering Services` | Good but page is noindexed |
-| Blog post | `Why A Hog Roast Is The Perfect Solution For Wedding Catering` | Good |
+| Page | Schema Type | Quality |
+|------|------------|---------|
+| Homepage | **None** | Missing -- should have Organization + WebSite |
+| `/villas/who-are-we` | Organization | Empty `sameAs` property |
+| `/villas/italy/sicily` | WebPage | Basic but correct |
+| `/villas/italy/sicily/taormina` | WebPage | **Missing `@context`** -- invalid without it |
+| `/villas/pool` | Product + AggregateRating | **PROBLEMATIC** -- 4.5 rating with "100 reviews" on a category page |
+| `/villas/beach` | WebPage | Incomplete (just type name, no full object) |
+| `/villas/italy/sicily/noto` | Service (Vacation Rental) | Reasonable but should be on villa pages |
+| `/villas/info/history-of-sicily` | Article | Good -- has headline, author, datePublished |
+| `/villas/last-minute` | Place + AggregateRating | **PROBLEMATIC** -- 0.0 rating with 0 reviews |
+| `/villas/owner-registration` | Product, Organization, WebSite | Multiple unrelated types |
+| Villa Mandralisca (detail) | **None** | Missing -- should have VacationRental or LodgingBusiness |
+| `/villas/contact` | **None** | Missing |
+| `/villas/suitable-for-weddings` | WebPage | Basic |
+| `/villas/for-sale` | **None** | Missing |
 
-### Meta Descriptions
+### Critical Schema Issues
 
-| Page | Description | Quality |
-|------|-------------|---------|
-| Homepage | "Elevate your weddings, parties, and events with mouth-watering hog roast and BBQ catering in London..." | Good (155 chars) |
-| Wedding | "Celebrate your special day with premier hog roast and barbecue catering in London, UK..." | Good |
-| Our Food | "Hog Roast, Barbecue and Spit Roast Catering. Our food, menus and event catering planning..." | OK |
-| Contact | "Wedding catering, hog roast party catering, corporate event catering..." | Good |
-
-### Meta Keywords (Obsolete but Present)
-
-| Page | Keywords | Issue |
-|------|----------|-------|
-| Homepage | `hog roast, hog roast caterer` | Minimal |
-| Wedding | `about, the, gipsy, hill, smokhouse` | **Typo: "smokhouse"**; also these are stop words, not keywords |
-| Our Food | `our, food` | Useless -- just the page name split into words |
-| Private Parties | `roast hog party, hog roast parties, roast hog london` | Reasonable but irrelevant since page is noindexed |
-
-### Heading Structure
-
-- **Homepage:** Heading structure not fully extractable due to Wix JS rendering
-- **Wedding page:** Good H1 ("Our Hog Roast Wedding Caterer London Services") followed by relevant H2s and H3s
-- **Our Food:** H2s only (no H1 visible in main content -- "Barbecue Menus" is an H1 but it's a secondary heading)
-- **Contact:** H1 ("Contact us") -- appropriately simple
-
-### Internal Linking
-
-- **Good:** Main navigation links to key service pages
-- **Gap:** Blog posts don't link back to service pages consistently
-- **Gap:** No breadcrumb navigation
-- **Gap:** Testimonials page has no links to service pages or contact form
-- **Inconsistent email:** Two different email domains used (`@thegipsyhillsmokehouse.com` and `@gipsyhillsmokehouse.com`)
+1. **Fake/misleading AggregateRating on /pool page**: Claims 100 ratings with 4.5 average for a category page that is not a product. This violates Google's structured data guidelines and risks a manual action.
+2. **Zero-review AggregateRating on /last-minute**: Schema shows 0.0 rating with 0 reviews -- pointless and potentially penalised.
+3. **No VacationRental schema on villa detail pages**: The most important pages for conversions have zero structured data. Google supports `VacationRental` type which would enable rich results.
+4. **No BreadcrumbList schema**: The site has visible breadcrumbs (Home > Villas > Sicily > Cefalu > Villa Mandralisca) but no corresponding schema markup.
+5. **No FAQPage schema**: The Sicily page has a FAQ section but no corresponding JSON-LD.
+6. **Inconsistent schema strategy**: 7 different schema types used across 14 pages with no coherent strategy.
 
 ---
 
-## Schema & Structured Data (Score: 10/100 | Weight: 10%)
+## Link Profile & Brand Signals (Score: 50/100 | Weight: 8%)
 
-### Current Implementation
+### External Presence
 
-**No JSON-LD structured data was detected on any page.**
+| Platform | Status | URL/Notes |
+|----------|--------|-----------|
+| Trustpilot | 4 stars (15 reviews) | sicily4u.co.uk listed |
+| Tripadvisor | Forum mention | Discussion thread in Sicily forum |
+| Facebook | Present | /sicily4ucouk page |
+| Scamadviser | "Likely legit" | Positive trust score |
+| feedback.sicily4u.co.uk | Active | Separate subdomain for reviews (HTTP only) |
+| sicily4u.com | **Separate domain** | Appears to be same business -- potential cannibalization |
 
-This is a critical gap for a local service business.
+### Brand Concerns
 
-### Missing Schema Opportunities
-
-| Schema Type | Priority | Page(s) |
-|-------------|----------|---------|
-| `LocalBusiness` / `FoodService` | CRITICAL | All pages (footer/site-wide) |
-| `CateringBusiness` (schema.org) | CRITICAL | Homepage, Wedding, Private Parties |
-| `Review` / `AggregateRating` | HIGH | Testimonials page |
-| `FAQPage` | HIGH | Homepage, Wedding page (add FAQ section) |
-| `Article` / `BlogPosting` | MEDIUM | Blog posts (Wix may auto-add, but not confirmed) |
-| `BreadcrumbList` | MEDIUM | All pages |
-| `WebSite` with `SearchAction` | LOW | Homepage |
-| `Event` | LOW | Festival/event pages |
-
-### Recommended LocalBusiness Schema
-
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "CateringBusiness",
-  "name": "The Gipsy Hill Smokehouse",
-  "description": "Hog roast and BBQ catering for weddings, events, and parties in London",
-  "url": "https://www.thegipsyhillsmokehouse.com",
-  "telephone": "+447944390309",
-  "email": "timclements@thegipsyhillsmokehouse.com",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Gipsy Hill",
-    "addressRegion": "London",
-    "addressCountry": "GB"
-  },
-  "areaServed": {
-    "@type": "GeoCircle",
-    "geoMidpoint": { "@type": "GeoCoordinates", "latitude": 51.4220, "longitude": -0.0840 },
-    "geoRadius": "80467"
-  },
-  "foundingDate": "2004",
-  "priceRange": "$$",
-  "servesCuisine": ["Hog Roast", "BBQ", "Portuguese", "Spit Roast"],
-  "sameAs": [
-    "https://www.instagram.com/thegipsyhillsmokehouse",
-    "https://www.facebook.com/thegipsyhillsmokehouse",
-    "https://www.twitter.com/gh_smokehouse",
-    "https://www.youtube.com/channel/UCNn_UscR8fylPm-OQQEJEKg"
-  ]
-}
-```
+1. **Two domains**: `sicily4u.co.uk` and `sicily4u.com` both exist. If both have similar content, they may be cannibalising each other in search results.
+2. **feedback subdomain on HTTP**: `http://feedback.sicily4u.co.uk` is not on HTTPS, which is a trust and security concern.
+3. **Low review volume**: Only 15 Trustpilot reviews for a business operating since 2004. More review generation efforts needed.
+4. **Organization schema has empty sameAs**: The `sameAs` property (for linking to social profiles) is blank.
 
 ---
 
-## Performance (Score: 65/100 | Weight: 10%)
+## Internationalisation (Score: 30/100 | Weight: 5%)
 
-### Observations (Lab Data Unavailable -- No Google API Credentials)
+### Hreflang Tags
 
-| Factor | Status | Notes |
+| Page | Hreflang Tags | Status |
+|------|--------------|--------|
+| `/villas/who-are-we` | `en-GB` | Present but alone (no alternate language) |
+| `/villas/italy/sicily/noto` | `en-GB`, `it-IT` | Present -- correctly indicates two language versions |
+| All other pages sampled | None | **Missing** |
+
+The site appears to have Italian versions (evidenced by `it-IT` hreflang on the Noto page and the `.co.uk` TLD suggesting UK market), but hreflang implementation is inconsistent. Most pages have no hreflang tags at all.
+
+---
+
+## Page Speed & Performance (Score: 50/100 | Weight: 5%)
+
+### Indicators
+
+| Signal | Status | Notes |
 |--------|--------|-------|
-| Image Format | Good | Wix auto-serves AVIF/WebP with quality optimization |
-| CDN | Good | Wix CDN (`static.wixstatic.com`) |
-| Responsive Images | Good | Wix handles responsive image sizing |
-| Third-party Scripts | Concern | Smartarget WhatsApp widget (trial version with branding visible to crawlers) |
-| JavaScript Weight | Concern | Wix is JS-heavy; impacts FCP/LCP for crawlers |
-| Hero Image Sizes | Moderate | Some hero images are 1400-1733px wide |
+| Server response | Fast | All pages returned 200 in <1 second |
+| Image optimisation | Partial | Uses ImageKit CDN (`ik.imagekit.io`) for villa photos -- good. But many pages use local images without CDN |
+| JavaScript | Moderate | `mobile-web-app-capable: yes` suggests PWA intentions |
+| CSS/render blocking | Unknown | Would need Lighthouse audit for full assessment |
 
-### Third-Party Script Concern
-
-The **Smartarget WhatsApp widget** is on a trial/free plan and injects visible branding text into the page:
-> "Smartarget Apps are hidden. Your Smartarget Whatsapp - Contact Us is visible on the homepage only + Smartarget branding."
-
-This text is crawlable and appears as page content to search engines.
-
-**Recommendation:** Upgrade to paid plan or replace with a native Wix chat widget to eliminate injected branding text.
+**Note:** A full Core Web Vitals assessment requires Google PageSpeed Insights or Lighthouse testing, which could not be performed in this audit. However, the fixed 1250px viewport width will cause layout shift issues on mobile devices, likely failing CLS (Cumulative Layout Shift) thresholds.
 
 ---
 
-## AI Search Readiness (Score: 25/100 | Weight: 10%)
+## Scoring Summary
 
-| Factor | Status |
-|--------|--------|
-| `llms.txt` | Missing |
-| FAQ structured data | Missing |
-| Content citability | Moderate -- wedding page has good factual content |
-| Brand mention signals | Moderate -- notable client mentions (Kensington Palace, Gordon Ramsay, etc.) |
-| AI crawler access | Allowed (robots.txt permits `*`) |
-| Content structure for extraction | Poor -- no bullet-point summaries, no data tables |
-| Unique statistics/data | Missing -- no specific numbers (events catered, years, guest counts) |
-
-### Recommendations for AI Search Optimization
-
-1. Add an `llms.txt` file at the root
-2. Create FAQ sections on key pages with FAQPage schema
-3. Add specific, citable statistics ("Over 500 events catered since 2004", "Serving parties of 20 to 500+ guests")
-4. Structure content with clear headers, bullet points, and summary paragraphs
-5. Add a "Key Facts" section to the homepage for easy AI extraction
+| Category | Score | Weight | Weighted |
+|----------|-------|--------|----------|
+| Technical SEO | 30/100 | 25% | 7.5 |
+| On-Page SEO | 35/100 | 25% | 8.75 |
+| Content Quality | 55/100 | 20% | 11.0 |
+| Schema / Structured Data | 25/100 | 15% | 3.75 |
+| Link Profile & Brand | 50/100 | 8% | 4.0 |
+| Internationalisation | 30/100 | 5% | 1.5 |
+| Performance | 50/100 | 2% | 1.0 |
+| **Overall** | | | **37.5 / 100** |
 
 ---
 
-## Images (Score: 60/100 | Weight: 5%)
+## Pages Audited
 
-### Image Optimization
-
-| Factor | Status | Notes |
-|--------|--------|-------|
-| Alt Text Present | Mostly | Most images have descriptive alt text |
-| AVIF/WebP Format | Yes | Wix auto-converts to modern formats |
-| Responsive Sizing | Yes | Wix handles `fill/w_XXX,h_XXX` sizing |
-| Lazy Loading | Likely | Wix handles via JS |
-
-### Alt Text Issues
-
-| Image | Alt Text | Issue |
-|-------|----------|-------|
-| Wedding hero | `IMG_4386_edited.jpg` | Filename used as alt text -- not descriptive |
-| Our Food hero | `Gipsy Hill Smokehouse Our Food_edited.jpg` | Filename-based, includes "_edited" |
-| Other images | Generally good | e.g., "Hog Roast Wedding Caterers, Spit Roasts & Barbecues" |
-
-### Missing Image SEO
-
-- No `<figcaption>` elements on images
-- No image sitemap entries visible
-- OG images are properly set across pages
+1. Homepage (`/villas`)
+2. Who Are We (`/villas/who-are-we`)
+3. Contact (`/villas/contact`)
+4. Sicily destination (`/villas/italy/sicily`)
+5. Taormina destination (`/villas/italy/sicily/taormina`)
+6. Noto destination (`/villas/italy/sicily/noto`)
+7. Villa Mandralisca detail (`/villas/italy/sicily/cefalù/villas/villa-mandralisca`)
+8. Pool collection (`/villas/pool`)
+9. Beach collection (`/villas/beach`)
+10. Weddings collection (`/villas/suitable-for-weddings`)
+11. For Sale (`/villas/for-sale`)
+12. Last Minute (`/villas/last-minute`)
+13. Owner Registration (`/villas/owner-registration`)
+14. History of Sicily (`/villas/info/history-of-sicily`)
+15. robots.txt
 
 ---
 
-## SEO Health Score Breakdown
+## Competitive Landscape
 
-| Category | Weight | Score | Weighted |
-|----------|--------|-------|----------|
-| Technical SEO | 22% | 45/100 | 9.9 |
-| Content Quality | 23% | 55/100 | 12.7 |
-| On-Page SEO | 20% | 50/100 | 10.0 |
-| Schema / Structured Data | 10% | 10/100 | 1.0 |
-| Performance | 10% | 65/100 | 6.5 |
-| AI Search Readiness | 10% | 25/100 | 2.5 |
-| Images | 5% | 60/100 | 3.0 |
-| **TOTAL** | **100%** | | **45.6 ~ 46/100** |
+Sicily4U operates in a competitive niche alongside:
+- **Think Sicily** (thinksicily.com) -- premium villa specialist
+- **Wish Sicily** (wishsicily.com) -- curated collection
+- **Italian Connection** (italian-connection.co.uk) -- broader Italy rentals
+- **Airbnb / Vrbo / Booking.com** -- marketplace giants
 
----
-
-## Notes
-
-- **No Google API credentials configured** -- CrUX field data, GSC indexation status, and GA4 traffic data unavailable. Configuring these would provide real-world performance metrics.
-- **No backlink API credentials** -- Unable to assess domain authority, referring domains, or toxic links.
-- **Wix platform limitations** -- Some technical SEO optimizations (server headers, advanced redirects, custom code injection) are limited by the Wix platform.
+Given the niche focus on Sicily luxury villas, there is significant opportunity to rank well for long-tail terms like "luxury villa with pool Taormina", "beachfront villa Sicily", and "wedding villa Sicily" -- but only after resolving the critical technical issues identified in this audit.
