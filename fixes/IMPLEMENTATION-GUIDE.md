@@ -1,58 +1,94 @@
 # SEO Fixes Implementation Guide
 
-**Site:** www.thegipsyhillsmokehouse.com (Wix)
+**Site:** www.sicily4u.co.uk (Custom Node.js)
 **Date:** 2026-04-12
-**Projected score uplift:** 46/100 -> 68-75/100
+**Projected score uplift:** 38/100 -> 65-70/100
 
-This guide lists 10 fixes in priority order with exact Wix steps.
+This guide lists 10 fixes in priority order with exact implementation steps.
 All code snippets are in the `schema/`, `technical/`, and `content/` folders.
 
 ---
 
 ## Quick Reference
 
-| # | Fix | Type | File | Wix Location | Time |
-|---|-----|------|------|-------------|------|
-| 1 | Fix homepage title tag | Technical | `technical/01-fix-homepage-title.html` | Custom Code > Body end > Homepage only | 5 min |
-| 2 | Remove noindex from Private Parties | Technical | `technical/02-remove-noindex-private-parties.md` | Page SEO Settings | 2 min |
-| 3 | Add LocalBusiness JSON-LD | Schema | `schema/03-local-business-schema.html` | Custom Code > Head > All pages | 5 min |
-| 4 | Add Review schema | Schema | `schema/04-review-schema-testimonials.html` | Custom Code > Head > Testimonials only | 5 min |
-| 5 | Fix Our Food page title | On-page | `technical/05-onpage-title-meta-fixes.md` | Page SEO Settings | 2 min |
-| 6 | Fix meta keywords | On-page | `technical/05-onpage-title-meta-fixes.md` | Page SEO Settings (3 pages) | 5 min |
-| 7 | Fix email inconsistency | On-page | `technical/05-onpage-title-meta-fixes.md` | Page editor + form settings | 10 min |
-| 8 | Expand Our Food content | Content | `content/08-our-food-page-expanded.md` | Page editor | 20 min |
-| 9 | Expand Contact page content | Content | `content/09-contact-page-expanded.md` | Page editor | 15 min |
-| 10 | Add FAQ + schema to Wedding page | Content+Schema | `content/10-faq-wedding-page.md` + `schema/10-faq-schema-wedding.html` | Page editor + Custom Code > Head | 25 min |
+| # | Fix | Type | File | Where to Apply | Time |
+|---|-----|------|------|---------------|------|
+| 1 | Fix viewport meta tag | Technical | `technical/01-fix-viewport-meta.html` | Base layout template `<head>` — all pages | 30 min + CSS |
+| 2 | Fix broken canonical URLs | Technical | `technical/02-fix-canonical-urls.md` | Template canonical tag logic | 30 min |
+| 3 | Fix empty/generic title tags | Technical | `technical/03-fix-title-tags.md` | CMS/page config for 6 pages | 30 min |
+| 4 | Remove fake AggregateRating | Technical | `technical/04-remove-fake-schema.md` | Remove schema from /pool and /last-minute | 15 min |
+| 5 | Fix OG typo + HTML in social tags | Technical | `technical/05-fix-social-meta-tags.md` | Homepage OG tags + villa template + contact template | 1 hr |
+| 6 | Fix duplicate meta descriptions | Technical | `technical/06-fix-duplicate-descriptions.md` | Template description output logic | 1 hr |
+| 7 | Remove template variable leak | Technical | `technical/07-fix-template-variable-leak.md` | Villa detail template keywords | 15 min |
+| 8 | Add Organization + WebSite schema | Schema | `schema/08-organization-website-schema.html` | Base layout `<head>` — all pages | 15 min |
+| 9 | Add VacationRental schema | Schema | `schema/09-vacation-rental-schema.html` | Villa detail page template `<head>` | 2-4 hrs |
+| 10a | Expand "Who Are We" page | Content | `content/10a-who-are-we-expanded.md` | Page editor / CMS | 30 min |
+| 10b | Expand Wedding Villas page | Content | `content/10b-wedding-villas-expanded.md` | Page editor / CMS + schema | 45 min |
 
-**Total estimated time: ~1.5 hours**
+**Total estimated time: ~7-9 hours**
 
 ---
 
-## How to Add Custom Code in Wix
+## Priority Tiers
 
-These steps apply to fixes #1, #3, #4, and #10:
+### CRITICAL — Deploy ASAP (Fixes 1-4)
 
-1. Open the **Wix Editor** for your site
-2. Click **Settings** in the left menu (gear icon)
-3. Click **Custom Code** (under "Advanced")
-4. Click **+ Add Custom Code**
-5. Paste the HTML snippet from the relevant file
-6. Set the **placement** as noted (Head or Body end)
-7. Set the **pages** as noted (All pages, or specific page)
-8. Click **Apply** then **Publish**
+These fixes address issues that are actively suppressing search rankings:
+
+| Fix | Issue | Impact if Not Fixed |
+|-----|-------|-------------------|
+| #1 Viewport | Hardcoded 1250px width fails mobile-first indexing | 30-50% organic traffic loss |
+| #2 Canonicals | 3 pages point canonical to homepage | Pages invisible to Google |
+| #3 Titles | Empty/duplicate titles on 6 pages | Poor SERP display, no differentiation |
+| #4 Fake Schema | Fabricated review ratings | Risk of Google manual penalty |
+
+### HIGH — Deploy Within 1 Week (Fixes 5-7)
+
+These fixes clean up technical debt that degrades SERP appearance:
+
+| Fix | Issue | Impact if Not Fixed |
+|-----|-------|-------------------|
+| #5 Social Tags | Typo in OG description, HTML in Twitter cards | Poor social sharing appearance |
+| #6 Descriptions | Duplicated meta descriptions on 6+ pages | Google auto-generates snippets |
+| #7 Template Leak | Debug variable in production HTML | Signals poor code quality |
+
+### MEDIUM — Deploy Within 1 Month (Fixes 8-10)
+
+These fixes add new capabilities and content:
+
+| Fix | Issue | Impact if Not Fixed |
+|-----|-------|-------------------|
+| #8 Org Schema | No business structured data | Missing knowledge panel, trust signals |
+| #9 Villa Schema | No VacationRental markup | Missing price/availability rich results |
+| #10 Content | About page: 35 words; Wedding: 250 words | Cannot rank for relevant queries |
+
+---
+
+## Platform Notes
+
+Sicily4U runs on a **custom Node.js** platform (not Wix, WordPress, or a hosted builder). This means:
+
+1. **Template changes** require access to the server-side codebase (likely Express.js with EJS, Handlebars, or similar template engine)
+2. **Schema markup** should be added via the `<head>` section of templates
+3. **Meta tags** are likely controlled by a combination of base layouts and per-page configuration
+4. **CSS changes** (for viewport fix) need to be deployed alongside the HTML change
+5. **Content changes** may go through a CMS or may require direct template editing
 
 ---
 
 ## Verification Checklist
 
-After publishing all fixes, verify with these tools:
+After deploying all fixes, verify with these tools:
 
-- [ ] **Title tag:** Google "site:thegipsyhillsmokehouse.com" -- check homepage title shows correctly
-- [ ] **Private Parties indexed:** Google "site:thegipsyhillsmokehouse.com/private-parties"
-- [ ] **Schema valid:** Test at https://validator.schema.org/ and https://search.google.com/test/rich-results
-- [ ] **Email consistency:** Check all pages show `timclements@thegipsyhillsmokehouse.com`
-- [ ] **Content live:** Verify expanded content on Our Food and Contact pages
-- [ ] **FAQ visible:** Check FAQ section appears on Wedding page
+- [ ] **Mobile friendly:** https://search.google.com/test/mobile-friendly — enter homepage URL
+- [ ] **Canonicals:** View source on /who-are-we, /owner-registration, /contact — check canonical matches page URL
+- [ ] **Titles:** View source on all 6 fixed pages — each should have a unique `<title>`
+- [ ] **Schema valid:** https://validator.schema.org/ — test homepage, a villa page, and /pool page
+- [ ] **Rich results:** https://search.google.com/test/rich-results — test a villa detail page
+- [ ] **Social tags:** https://developers.facebook.com/tools/debug/ — test homepage URL
+- [ ] **No template leaks:** View source on a villa page — search for "tmp_" (should not appear)
+- [ ] **Descriptions:** View source on homepage — `<meta name="description"` should appear exactly once
+- [ ] **Content live:** Check /who-are-we has ~850 words and /suitable-for-weddings has ~1,200 words
 
 ---
 
@@ -61,7 +97,10 @@ After publishing all fixes, verify with these tools:
 | Milestone | Timeframe |
 |-----------|-----------|
 | Google re-crawls pages with fixes | 3-7 days |
-| Homepage title corrected in SERP | 1-2 weeks |
-| Private Parties page indexed | 1-2 weeks |
-| Rich results (stars, FAQ) appear | 2-4 weeks |
-| Ranking improvements from content | 4-8 weeks |
+| Mobile usability errors clear in Search Console | 1-2 weeks |
+| Fixed titles appear in search results | 1-2 weeks |
+| Canonical-fixed pages re-indexed | 1-2 weeks |
+| Organization schema reflected in knowledge panel | 2-4 weeks |
+| VacationRental rich results appear | 2-4 weeks |
+| Wedding page ranks for new keywords | 4-8 weeks |
+| Full score recovery to 65-70/100 | 8-12 weeks |

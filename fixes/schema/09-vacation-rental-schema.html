@@ -1,0 +1,186 @@
+<!--
+  FIX #9: VacationRental Schema for Villa Detail Pages
+  =====================================================
+  PROBLEM: Villa detail pages have zero structured data despite containing
+  pricing, availability, location, amenities, and images — all perfect for
+  Google rich results. Competitors with schema markup get enhanced SERP
+  display (price, rating, availability) while Sicily4U listings appear as
+  plain blue links.
+
+  INSTALL: Add this JSON-LD dynamically to the <head> of every villa detail
+           page. The values in {{brackets}} should be populated from your
+           villa database/CMS.
+
+  ALSO ADD: BreadcrumbList schema (the site has visible breadcrumbs but no
+            corresponding structured data).
+
+  VALIDATES AT: https://validator.schema.org/
+                https://search.google.com/test/rich-results
+
+  EXAMPLE BELOW: Villa Mandralisca in Cefalù (adapt template variables
+  to your system).
+-->
+
+<!-- ============================================ -->
+<!-- TEMPLATE: Copy into villa detail page <head> -->
+<!-- Replace {{variable}} with your template tags -->
+<!-- ============================================ -->
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VacationRental",
+  "name": "{{villa.name}}",
+  "description": "{{villa.shortDescription}}",
+  "url": "{{villa.canonicalUrl}}",
+  "image": [
+    "{{villa.images[0].url}}",
+    "{{villa.images[1].url}}",
+    "{{villa.images[2].url}}"
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "{{villa.town}}",
+    "addressRegion": "Sicily",
+    "addressCountry": "IT"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "{{villa.latitude}}",
+    "longitude": "{{villa.longitude}}"
+  },
+  "numberOfRooms": "{{villa.bedrooms}}",
+  "numberOfBathroomsTotal": "{{villa.bathrooms}}",
+  "occupancy": {
+    "@type": "QuantitativeValue",
+    "maxValue": "{{villa.maxGuests}}"
+  },
+  "floorSize": {
+    "@type": "QuantitativeValue",
+    "value": "{{villa.squareMeters}}",
+    "unitCode": "MTK"
+  },
+  "amenityFeature": [
+    {{#each villa.amenities}}
+    {
+      "@type": "LocationFeatureSpecification",
+      "name": "{{this.name}}",
+      "value": true
+    }{{#unless @last}},{{/unless}}
+    {{/each}}
+  ],
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": "EUR",
+    "lowPrice": "{{villa.minWeeklyPrice}}",
+    "highPrice": "{{villa.maxWeeklyPrice}}",
+    "offerCount": "{{villa.availableWeeks}}",
+    "availability": "https://schema.org/InStock"
+  },
+  "provider": {
+    "@id": "https://www.sicily4u.co.uk/#organization"
+  },
+  "additionalType": "https://schema.org/House"
+}
+</script>
+
+<!-- BreadcrumbList Schema (matches visible breadcrumbs) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.sicily4u.co.uk"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Sicily",
+      "item": "https://www.sicily4u.co.uk/villas/italy/sicily"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{villa.town}}",
+      "item": "https://www.sicily4u.co.uk/villas/italy/sicily/{{villa.townSlug}}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "name": "{{villa.name}}",
+      "item": "{{villa.canonicalUrl}}"
+    }
+  ]
+}
+</script>
+
+<!--
+  CONCRETE EXAMPLE: Villa Mandralisca
+  ====================================
+  Here's how the template above renders for a real villa:
+-->
+
+<!--
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VacationRental",
+  "name": "Villa Mandralisca",
+  "description": "Seafront villa with sea view for 6 guests, featuring modern amenities, direct beach access, and proximity to Cefalù's historic centre.",
+  "url": "https://www.sicily4u.co.uk/villas/italy/sicily/cefalù/villas/villa-mandralisca",
+  "image": [
+    "https://ik.imagekit.io/agrpv/105086_00.jpg",
+    "https://ik.imagekit.io/agrpv/105086_01.jpg",
+    "https://ik.imagekit.io/agrpv/105086_02.jpg"
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Cefalù",
+    "addressRegion": "Sicily",
+    "addressCountry": "IT"
+  },
+  "numberOfRooms": 3,
+  "numberOfBathroomsTotal": 2,
+  "occupancy": {
+    "@type": "QuantitativeValue",
+    "maxValue": 6
+  },
+  "amenityFeature": [
+    {"@type": "LocationFeatureSpecification", "name": "Direct beach access", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Sea view", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Air conditioning", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "WiFi", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Washing machine", "value": true},
+    {"@type": "LocationFeatureSpecification", "name": "Parking", "value": true}
+  ],
+  "offers": {
+    "@type": "AggregateOffer",
+    "priceCurrency": "EUR",
+    "lowPrice": 2610,
+    "highPrice": 4630,
+    "availability": "https://schema.org/InStock"
+  },
+  "provider": {
+    "@id": "https://www.sicily4u.co.uk/#organization"
+  },
+  "additionalType": "https://schema.org/House"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.sicily4u.co.uk"},
+    {"@type": "ListItem", "position": 2, "name": "Sicily", "item": "https://www.sicily4u.co.uk/villas/italy/sicily"},
+    {"@type": "ListItem", "position": 3, "name": "Cefalù", "item": "https://www.sicily4u.co.uk/villas/italy/sicily/cefalù"},
+    {"@type": "ListItem", "position": 4, "name": "Villa Mandralisca", "item": "https://www.sicily4u.co.uk/villas/italy/sicily/cefalù/villas/villa-mandralisca"}
+  ]
+}
+</script>
+-->

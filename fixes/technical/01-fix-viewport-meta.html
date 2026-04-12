@@ -1,0 +1,62 @@
+<!--
+  FIX #1: Viewport Meta Tag — Mobile-First Indexing Recovery
+  ===========================================================
+  PROBLEM: Every page on the site has <meta name="viewport" content="width=1250">
+  which forces a fixed 1250px desktop layout. Google's mobile-first indexing
+  evaluates the mobile version of the site — a hardcoded width fails this
+  completely, likely causing a 30-50% loss in organic search traffic.
+
+  CURRENT (broken):
+    <meta name="viewport" content="width=1250">
+
+  INSTALL: Find the viewport meta tag in your server-side template (likely in a
+           shared <head> partial or layout file) and replace it with the tag below.
+           This is a single-line change that affects all pages.
+
+  PLATFORM: Custom Node.js — look for the viewport tag in your base HTML template
+            (e.g., layout.html, _head.ejs, base.njk, or equivalent).
+
+  IMPORTANT: After changing the viewport, you must also verify that your CSS
+  is responsive. If the site uses fixed pixel widths (e.g., width: 1250px on
+  the body or main container), you will also need to convert those to
+  max-width or percentage-based layouts. See the CSS guidance below.
+-->
+
+<!-- REPLACE the existing viewport meta tag with this: -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!--
+  CSS CHANGES LIKELY NEEDED:
+  ==========================
+  After fixing the viewport, check your CSS for hardcoded widths.
+  Common patterns to find-and-replace:
+
+  BEFORE (fixed):
+    body { width: 1250px; margin: 0 auto; }
+    .container { width: 1250px; }
+    .header { width: 1250px; }
+
+  AFTER (responsive):
+    body { max-width: 1250px; width: 100%; margin: 0 auto; }
+    .container { max-width: 1250px; width: 100%; padding: 0 16px; box-sizing: border-box; }
+    .header { max-width: 1250px; width: 100%; }
+
+  Add a basic responsive breakpoint at minimum:
+
+    @media (max-width: 768px) {
+      .villa-grid { grid-template-columns: 1fr; }
+      .nav-menu { display: none; }    /* replace with mobile menu */
+      .hero-text { font-size: 1.5rem; }
+      img { max-width: 100%; height: auto; }
+    }
+
+  VERIFICATION:
+  =============
+  1. Deploy the change
+  2. Test at: https://search.google.com/test/mobile-friendly
+     Enter: https://www.sicily4u.co.uk
+  3. Check in Chrome DevTools > Toggle device toolbar (Ctrl+Shift+M)
+     Test at 375px, 768px, and 1024px widths
+  4. Monitor Google Search Console > "Mobile Usability" report
+     Errors should clear within 1-2 weeks after Google re-crawls
+-->

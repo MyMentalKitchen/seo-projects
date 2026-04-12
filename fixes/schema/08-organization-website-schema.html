@@ -1,0 +1,103 @@
+<!--
+  FIX #8: Organization + WebSite Schema (Site-Wide)
+  ==================================================
+  PROBLEM: The homepage has zero structured data. The existing Organization
+  schema on /who-are-we has an empty sameAs property. There is no WebSite
+  schema with SearchAction for sitelinks search box eligibility.
+
+  INSTALL: Add this JSON-LD block to the <head> section of your base/layout
+           template so it appears on ALL pages.
+
+  REPLACES: The broken Organization schema currently on /villas/who-are-we:
+            {"@context":"http://schema.org","@type":"Organization","name":"Sicily4U","url":"https://www.sicily4u.co.uk","sameAs":""}
+            Remove that old schema after adding this one.
+
+  VALIDATES AT: https://validator.schema.org/
+                https://search.google.com/test/rich-results
+-->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TravelAgency",
+      "@id": "https://www.sicily4u.co.uk/#organization",
+      "name": "Sicily4U",
+      "alternateName": "Sicily4u.co.uk",
+      "description": "Luxury villa rental specialist in Sicily since 2004. Handpicked villas with private pools, beachfront locations, and sea views across Sicily's most beautiful destinations.",
+      "url": "https://www.sicily4u.co.uk",
+      "telephone": "+442038686514",
+      "email": "info@sicily4u.co.uk",
+      "foundingDate": "2004",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.sicily4u.co.uk/img/v2_sicily4u/luxury_sicily_villas.jpg",
+        "width": 1200,
+        "height": 893
+      },
+      "image": "https://www.sicily4u.co.uk/img/v2_sicily4u/luxury_sicily_villas.jpg",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Tägerwilen",
+        "addressCountry": "CH"
+      },
+      "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "Sicily, Italy"
+      },
+      "sameAs": [
+        "https://www.facebook.com/sicily4ucouk",
+        "https://www.trustpilot.com/review/sicily4u.co.uk",
+        "https://sicily4u.com"
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.0",
+        "reviewCount": "15",
+        "bestRating": "5",
+        "worstRating": "1",
+        "url": "https://www.trustpilot.com/review/sicily4u.co.uk"
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.sicily4u.co.uk/#website",
+      "url": "https://www.sicily4u.co.uk",
+      "name": "Sicily4U - Luxury Villa Rentals in Sicily",
+      "publisher": {
+        "@id": "https://www.sicily4u.co.uk/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://www.sicily4u.co.uk/villas/search?q={search_term_string}"
+        },
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+}
+</script>
+<!--
+  NOTES:
+  ======
+  1. The aggregateRating uses your real Trustpilot score (4.0 stars, 15 reviews).
+     Update these numbers whenever your Trustpilot score changes.
+     If you prefer not to manually maintain this, remove the aggregateRating block
+     and let Google pull ratings from Trustpilot directly.
+
+  2. The SearchAction URL template should match your actual search page.
+     Verify that https://www.sicily4u.co.uk/villas/search?q=taormina works.
+     If your search uses a different parameter, update accordingly.
+
+  3. Update the logo URL to your actual logo image (not the generic hero image).
+     Ideal logo specs: 112x112px minimum, rectangular, on white/transparent background.
+
+  4. Add more sameAs URLs as you build presence:
+     - TripAdvisor company page (if you create one)
+     - Instagram, Twitter/X profiles
+     - Google Business Profile URL
+
+  5. REMOVE the old broken Organization schema from /who-are-we after deploying this.
+-->
