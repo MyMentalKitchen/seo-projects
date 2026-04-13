@@ -1,0 +1,118 @@
+<!--
+  Fix #6: FAQPage JSON-LD Schema for /faqs
+
+  PROBLEM:
+    The FAQs page contains 24 questions and answers across 4 sections
+    but has no FAQPage structured data. This misses the chance for
+    FAQ rich results (expandable Q&A directly in Google Search).
+
+  HOW TO USE:
+    Option A (Page-specific custom code):
+      1. Install the "Code Snippets" or "Insert Headers and Footers" plugin
+      2. Add this snippet to the HEAD section of the /faqs page ONLY
+
+    Option B (Yoast SEO):
+      1. Edit the FAQs page
+      2. In the Yoast panel, click the Schema tab
+      3. Yoast has a built-in FAQ block — you could also use that
+
+    Option C (Theme - header.php):
+      Wrap in: if ( is_page('faqs') ) { echo '...'; }
+
+  NOTE: This includes 10 of the most search-relevant FAQs.
+  Google typically shows 2-4 in search results. You can add all 24
+  if desired, but 10 keeps the snippet manageable.
+
+  EXPECTED RESULT:
+    FAQ rich results with expandable Q&A in Google Search.
+    Validate at: https://search.google.com/test/rich-results
+-->
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I make an inquiry without committing to a booking?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, you're welcome to ask about a property or check availability without making a commitment. We're happy to help you explore your options."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I provisionally reserve a holiday home without any obligation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, in most cases you can place a 48-hour hold, known as an 'Option', on a holiday home without committing to a booking. Just contact our reservations team, and we'll reserve the property for you while you decide. Please note: To hold a property, we'll still need a few details like your travel dates, number of guests, and contact information. You can only reserve one property at a time."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I only book Saturday to Saturday, or are mid-week bookings possible too?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "During peak season (mid-June to mid-September), many properties are available only from Saturday to Saturday. That said, some homes do offer more flexible options. Outside of peak season, mid-week bookings are usually no problem."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I bring my pet?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Some of our holiday homes do allow pets — this will be mentioned in the property description. However, the number and size of pets aren't always specified. To be sure, please contact our reservations team. We'll check with the property owner and confirm everything for you before you book."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How and when can I pay for my booking?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can pay by credit card (Mastercard, Visa, or American Express) using our secure payment link, or by bank transfer to our EUR account. A 35% deposit is due at the time of booking, and the remaining balance is payable 8 weeks before your arrival."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Sicily4u offer any early booking discounts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, we offer a range of discounts, including early bird, last-minute, and other seasonal promotions. These are updated regularly and shown directly on the applicable property pages. Any discounts are already included in the price you see."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What time can I check in, and what time do I need to check out?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Check-in is usually between 4:00 pm and 7:00 pm. On the day you leave, check-out is by 10:00 am. You'll find the exact times listed in your travel voucher. If you need different times, let us know — any changes must be confirmed by the property owner in advance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When will I receive my travel documents?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You'll receive your travel documents after we've received your final payment, usually between 2 and 6 weeks before your arrival. These documents include the property address or GPS coordinates, directions, and contact details for the owner or local representative."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "I need to cancel my booking, what should I do?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "To cancel your booking, please email us in writing and include your booking reference or invoice number. We'll confirm the cancellation by email and send you a cancellation invoice. Be sure to review the cancellation fees outlined in our Terms and Conditions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's the difference between the deposit and the security deposit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The deposit is a percentage of the rental cost that you pay at the time of booking to confirm your stay. The remaining balance is due 8 weeks before your arrival. The security deposit is a separate amount, paid in cash to the owner or key holder when you arrive. It's held during your stay and returned at checkout, after a quick inspection of the property."
+      }
+    }
+  ]
+}
+</script>

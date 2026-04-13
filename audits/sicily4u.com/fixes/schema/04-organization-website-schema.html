@@ -1,0 +1,93 @@
+<!--
+  Fix #4: Organization + WebSite JSON-LD Structured Data
+
+  PROBLEM:
+    Zero JSON-LD structured data exists anywhere on the site.
+    This means no eligibility for Knowledge Panel, sitelinks
+    search box, or any other schema-powered rich results.
+
+  HOW TO USE:
+    Option A (Theme):
+      1. Go to Appearance > Theme Editor (or edit via FTP)
+      2. Open header.php in your child theme
+      3. Paste this code just before </head>
+
+    Option B (SEO Plugin - Yoast):
+      1. Not natively supported — use a custom code plugin
+
+    Option C (Code Snippets Plugin - recommended):
+      1. Install "Code Snippets" plugin
+      2. Add New Snippet > "Header & Footer" type
+      3. Paste this code in the "Header" section
+      4. Set to run on "All Pages"
+
+  EXPECTED RESULT:
+    Knowledge panel eligibility; sitelinks search box in SERPs.
+    Validate at: https://search.google.com/test/rich-results
+-->
+
+<!-- Sicily4u: Organization Schema (all pages) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Sicily4u",
+  "alternateName": "Sicily4u Villas",
+  "url": "https://sicily4u.com",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://sicily4u.com/wp-content/uploads/2025/01/cropped-logo_sicily4u.png",
+    "width": 284,
+    "height": 163
+  },
+  "description": "Handpicked luxury villa rentals across Sicily for unforgettable vacations.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Nationalstrasse 7",
+    "addressLocality": "Kreuzlingen",
+    "postalCode": "CH-8280",
+    "addressCountry": "CH"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+442038686514",
+    "contactType": "customer service",
+    "email": "bookings@sicily4u.com",
+    "availableLanguage": ["English", "German", "Italian"]
+  },
+  "sameAs": [
+    <!-- Add your social media profile URLs here, e.g.:
+    "https://www.facebook.com/sicily4u",
+    "https://www.instagram.com/sicily4u"
+    -->
+  ]
+}
+</script>
+
+<!-- Sicily4u: WebSite Schema with SearchAction (homepage only) -->
+<!--
+  NOTE: This block should ONLY appear on the homepage.
+  If using Code Snippets, set it to "Front Page Only".
+  If using header.php, wrap it in: if ( is_front_page() ) { ... }
+-->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Sicily4u",
+  "url": "https://sicily4u.com",
+  "description": "Handpicked luxury Sicily villas for a relaxing vacation.",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Sicily4u"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "https://sicily4u.com/?s={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
