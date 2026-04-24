@@ -1,44 +1,46 @@
 # Full SEO Audit Report: The Gipsy Hill Smokehouse
 
 **URL:** https://www.thegipsyhillsmokehouse.com  
-**Date:** 2026-04-12  
+**Date:** 2026-04-24 (updated; original audit 2026-04-12)  
 **Business Type Detected:** Local Service / Catering (Hog Roast & BBQ, London, UK)  
 **Platform:** Wix.com Website Builder  
-**Pages Discovered:** ~32 pages  
-**SEO Health Score: 46/100**
+**Pages Discovered:** ~36 pages (14 service/info pages, ~12 blog posts, utility pages)  
+**SEO Health Score: 38/100** (down from 46 on 2026-04-12)
 
 ---
 
 ## Executive Summary
 
-The Gipsy Hill Smokehouse is a well-established hog roast and BBQ catering business in London with nearly 20 years of experience. The website has good foundational content and decent imagery, but suffers from several **critical SEO issues** that are likely suppressing search visibility significantly.
+The Gipsy Hill Smokehouse is a well-established hog roast and BBQ catering business in London with over 20 years of experience (est. 2004). The website has decent foundational content on key pages like the homepage (~1,133 words) and wedding page (~1,200 words), and the business has strong E-E-A-T credentials including mentions of Kensington Palace, Gordon Ramsay's F-Word, and Heston Blumenthal's Fat Duck.
+
+However, the site suffers from **severe technical and structural SEO issues** that are almost certainly suppressing search visibility dramatically. The score has **declined from 46 to 38** since the original audit on 2026-04-12, primarily because a fourth key page (`/spit-roasts-hog-roasts`) has now been tagged with `noindex`.
 
 ### Top 5 Critical Issues
 
-1. **Homepage title tag is broken** -- renders as `(1)` due to WhatsApp chat widget overriding the `<title>` element
-2. **Private Parties page has `noindex, nofollow`** -- a key service page is completely blocked from search engines
-3. **Zero structured data (JSON-LD)** -- no LocalBusiness, CateringBusiness, Review, or any schema markup detected
-4. **No Google Business Profile schema integration** -- critical for a local service business
-5. **Blog content is thin** -- most posts are 300-500 words with minimal depth
+1. **Homepage title tag renders as "(1)"** -- the Smartarget WhatsApp widget overwrites `document.title` with a notification counter; Google indexes this broken title
+2. **FOUR key revenue pages blocked by `noindex`** -- `/private-parties`, `/event-catering`, `/hog-roast-party`, and `/spit-roasts-hog-roasts` are all invisible to Google
+3. **Zero structured data (JSON-LD)** -- no LocalBusiness, CateringBusiness, Review, FAQ, or any schema markup on any page
+4. **Spit Roasts page has 6 H1 tags** -- catastrophic heading structure; each content section uses H1 instead of H2
+5. **No Google Business Profile** detected -- critical gap for a local service business
 
 ### Top 5 Quick Wins
 
-1. Fix the homepage `<title>` tag (chat widget conflict) -- immediate ranking recovery
-2. Remove `noindex,nofollow` from the Private Parties page
-3. Add LocalBusiness + CateringBusiness JSON-LD schema to all pages
-4. Add Review/AggregateRating schema to the testimonials page
-5. Fix inconsistent email addresses (`timclements@thegipsyhillsmokehouse.com` vs `timclements@gipsyhillsmokehouse.com`)
+1. Fix the homepage `<title>` tag (remove/replace Smartarget widget) -- immediate SERP improvement
+2. Remove `noindex` from the 4 blocked service pages -- re-index within 1-2 weeks
+3. Add CateringBusiness JSON-LD schema site-wide via Wix Custom Code
+4. Add Review/AggregateRating schema to the testimonials page (12 genuine reviews exist)
+5. Fix the spit roasts page heading structure (6 H1s -> 1 H1 + 5 H2s)
 
 ---
 
-## Technical SEO (Score: 45/100 | Weight: 22%)
+## Technical SEO (Score: 30/100 | Weight: 22%)
 
 ### Crawlability
 
 | Check | Status | Notes |
 |-------|--------|-------|
-| robots.txt | Present | Sitemap declared; excessive bot blocking (100+ user-agents) |
-| XML Sitemap | Present | 3 sub-sitemaps (booking-services, restaurants-menu, pages) |
+| robots.txt | Present | `Allow: /` for all; sitemap declared; Googlebot blocked from `?lightbox=` URLs |
+| XML Sitemap | Present | `sitemap.xml` with 3 sub-sitemaps (booking-services, restaurants-menu, pages) |
 | HTTPS | Yes | SSL active |
 | Google Verification | Yes | `mTKqnmAyleGZ-BbxJFH0myG0ZBWf150zeQ7ukJFp8Aw` |
 | Bing Verification | Yes | Two verification codes present |
@@ -46,190 +48,149 @@ The Gipsy Hill Smokehouse is a well-established hog roast and BBQ catering busin
 
 ### Indexability Issues
 
-| Issue | Severity | Page |
-|-------|----------|------|
-| `noindex,nofollow` on Private Parties page | CRITICAL | `/private-parties` |
-| Homepage `<title>` overridden by chat widget | CRITICAL | `/` (renders as "(1)") |
-| Duplicate viewport meta tags | Medium | Multiple pages have 2-3 viewport tags |
-| Duplicate `og:type` values | Low | `/private-parties` has `og:type` listed twice |
-| Duplicate `og:title` / `og:description` values | Low | `/private-parties` has duplicate OG tags from embedded form |
+| Issue | Severity | Page(s) |
+|-------|----------|---------|
+| Homepage `<title>` overridden by chat widget | **CRITICAL** | `/` (renders as "(1)") |
+| `noindex,nofollow` on Private Parties | **CRITICAL** | `/private-parties` |
+| `noindex,nofollow` on Event Catering | **CRITICAL** | `/event-catering` |
+| `noindex,nofollow` on Hog Roast Party | **CRITICAL** | `/hog-roast-party` |
+| `noindex` on Spit Roasts | **CRITICAL** | `/spit-roasts-hog-roasts` (NEW since original audit) |
+| Duplicate OG tags (arrays) on form pages | Medium | `/private-parties`, `/event-catering`, `/hog-roast-party` |
+| Multiple viewport meta tags | Medium | `/private-parties` (3), `/event-catering` (4), `/hog-roast-party` (3) |
 
-### Security & Headers
-
-| Check | Status |
-|-------|--------|
-| HTTPS | Active |
-| Mixed Content | Not detected |
-| Content-Type | `text/html; charset=UTF-8` |
+The `noindex` issue on form-embedded pages is a **known Wix bug**: when a Wix Form is embedded directly on a page (rather than via lightbox), it injects its own meta tags including `noindex,nofollow` and duplicate OG tags.
 
 ### robots.txt Analysis
 
-- **Good:** Sitemap properly declared, Googlebot allowed with specific exclusions
-- **Concern:** Over 100 user-agents individually blocked -- this is excessive and unnecessary. Most of these are obsolete bots. This bloats the robots.txt file and provides no real benefit.
-- **Concern:** PetalBot (Huawei search) fully blocked -- may limit visibility in some markets
+- **Good:** Sitemap declared, Googlebot allowed with specific `?lightbox=` exclusion
+- **Concern:** Over 100 individual user-agents blocked (Wix default bloat)
+- **Concern:** PetalBot (Huawei search) fully blocked
 - **Note:** AhrefsBot and dotbot given crawl-delay of 10 seconds
 
 ---
 
-## Content Quality (Score: 55/100 | Weight: 23%)
+## Content Quality (Score: 52/100 | Weight: 23%)
 
 ### E-E-A-T Assessment
 
 | Signal | Score | Notes |
 |--------|-------|-------|
-| Experience | Good | 20+ years in business, mentions Borough Market, celebrity clients, specific events |
-| Expertise | Good | Detailed knowledge of porchetta-style cooking, Portuguese cuisine origins |
-| Authoritativeness | Moderate | Notable client mentions (Kensington Palace, Gordon Ramsay, Heston Blumenthal) but no external validation visible |
-| Trustworthiness | Moderate | Testimonials present but use initials only (H.J., C.S., etc.) -- no full names, dates, or verification |
+| Experience | Strong | 20+ years in business (est. 2004), Borough Market heritage, hundreds of events |
+| Expertise | Strong | Detailed knowledge of porchetta-style cooking, Portuguese cuisine origins, specific cooking techniques |
+| Authoritativeness | Moderate | Notable clients (Kensington Palace, Gordon Ramsay, Heston Blumenthal) but limited external validation |
+| Trustworthiness | Moderate | Real phone number (07944 390 309), testimonials present but use initials only (H.J., C.S.), no external review links |
 
 ### Content Depth by Page
 
-| Page | Word Count | Quality |
-|------|-----------|---------|
-| Wedding Caterer (`/hog-roast-wedding-caterer-london`) | ~1,200 | Good -- comprehensive, keyword-rich |
-| Private Parties (`/private-parties`) | ~350 | Thin -- needs expansion |
-| Our Food (`/our-food`) | ~200 | Very Thin -- minimal descriptions |
-| Contact Us (`/contact-us`) | ~50 | Minimal -- just form + phone |
-| Testimonials (`/testimonials`) | ~800 | Moderate -- good social proof but unstructured |
-| Blog posts | 300-500 each | Thin -- lack depth, headers, internal links |
+| Page | URL | Word Count | Quality |
+|------|-----|-----------|---------|
+| Event Catering | `/event-catering` | ~1,581 | Good -- but page is **noindexed** |
+| Homepage | `/` | ~1,133 | Good -- comprehensive, good internal links |
+| Wedding Caterer | `/hog-roast-wedding-caterer-london` | ~1,200 | Good -- strong E-E-A-T, origin story |
+| Testimonials | `/testimonials` | ~930 | Moderate -- 12 genuine testimonials but no schema |
+| Private Parties | `/private-parties` | ~457 | Thin -- and **noindexed** |
+| Beckenham Location | `/hog-roast-catering-beckenham` | ~282 | Thin -- needs expansion |
+| Spit Roasts | `/spit-roasts-hog-roasts` | ~259 | Thin -- and **noindexed** |
+| Our Food | `/our-food` | ~202 | Very Thin |
+| Hog Roast Party | `/hog-roast-party` | ~189 | Very Thin -- essentially just a form |
+| Contact Us | `/contact-us` | ~72 | Minimal -- just form + phone |
 
 ### Content Issues
 
-- **Thin content pages:** Our Food, Contact Us, and several blog posts
-- **Blog posts lack structure:** No H2/H3 subheadings, no bullet points, no internal links to service pages
-- **Testimonials use initials only:** "H.J.", "C.S." -- this reduces trust signals. Full names (with permission) or at minimum first names would be stronger
-- **No FAQ content:** Missing opportunity for FAQ-rich content that targets long-tail queries
-- **No pricing information:** Even approximate pricing ranges would help conversions and target "hog roast cost" queries
+- **4 of the top 10 pages by content are noindexed**, including the richest one (Event Catering at 1,581 words)
+- **Our Food page at 202 words** is critically thin for a food business
+- **Blog has only 2 posts** -- massive missed opportunity for topical authority
+- **Testimonials use initials only** (H.J., C.S.) -- reduces trust signals
+- **No FAQ content** on any page
+- **No pricing information** except on the spit roasts page ("From £25.00 per head")
 
 ---
 
-## On-Page SEO (Score: 50/100 | Weight: 20%)
+## On-Page SEO (Score: 38/100 | Weight: 20%)
 
 ### Title Tags
 
-| Page | Title | Issue |
-|------|-------|-------|
-| Homepage | `(1)` | **CRITICAL**: Chat widget overrides real title |
-| Wedding | `Hog Roast Wedding Caterer London, UK - Spit Roasts & Barbecue Catering Services` | Good but long (83 chars) |
-| Our Food | `OUR FOOD \| GipsyHill_Smokehouse` | Poor -- not descriptive, underscore in brand |
-| Contact | `Contact Us \| The Gipsy Hill Smokehouse - Roast Hog` | OK |
+| Page | Title Tag | Issue |
+|------|-----------|-------|
+| Homepage | `💬 (1)` | **CRITICAL**: Chat widget overrides real title |
+| Our Food | `OUR FOOD \| GipsyHill_Smokehouse` | Poor -- uses internal Wix site name |
+| Spit Roasts | `Spit Roast Catering \| Get a Spit Roasted Hog at your Event \| The Gipsy Hill Smokehouse - Roast Hog` | Too long (97 chars; Google truncates at ~60) |
+| Blog | `Blog \| GipsyHill_Smokehouse` | Poor -- uses internal Wix site name |
+| Wedding Menus | OG title: `WEDDING MENUS \| Roast Hog and GipsyHill_Smokehouse` | OG title uses internal name (page title is fine) |
+| Wedding | `Hog Roast Wedding Caterer London, UK - Spit Roasts & Barbecue Catering Services` | Good (80 chars) |
+| Contact | `Contact Us \| The Gipsy Hill Smokehouse - Roast Hog` | Good |
 | Testimonials | `Wedding Catering Testimonials \| The Gipsy Hill Smokehouse - Roast Hog` | Good |
-| Private Parties | `Hog Roast Private Party Catering London, UK - Spit Roasts & BBQ Catering Services` | Good but page is noindexed |
-| Blog post | `Why A Hog Roast Is The Perfect Solution For Wedding Catering` | Good |
+| Beckenham | `Hog Roast BBQ Catering Beckenham, UK - Barbecue Caterers for Wedding, Events & Parties` | Good |
 
-### Meta Descriptions
-
-| Page | Description | Quality |
-|------|-------------|---------|
-| Homepage | "Elevate your weddings, parties, and events with mouth-watering hog roast and BBQ catering in London..." | Good (155 chars) |
-| Wedding | "Celebrate your special day with premier hog roast and barbecue catering in London, UK..." | Good |
-| Our Food | "Hog Roast, Barbecue and Spit Roast Catering. Our food, menus and event catering planning..." | OK |
-| Contact | "Wedding catering, hog roast party catering, corporate event catering..." | Good |
-
-### Meta Keywords (Obsolete but Present)
+### Meta Keywords Issues
 
 | Page | Keywords | Issue |
 |------|----------|-------|
-| Homepage | `hog roast, hog roast caterer` | Minimal |
-| Wedding | `about, the, gipsy, hill, smokhouse` | **Typo: "smokhouse"**; also these are stop words, not keywords |
-| Our Food | `our, food` | Useless -- just the page name split into words |
-| Private Parties | `roast hog party, hog roast parties, roast hog london` | Reasonable but irrelevant since page is noindexed |
+| Wedding | `about, the, gipsy, hill, smokhouse` | **Stop words as keywords + typo ("smokhouse")** |
+| Our Food | `our, food` | Useless -- page name split into words |
+| Event Catering | `roast hog london bridge, london borough market` | Wrong focus for an event catering page |
+| Beckenham | `roast hog london bridge, london borough market` | **Wrong location entirely** (Beckenham ≠ London Bridge) |
+| Homepage | `hog roast, hog roast caterer` | Minimal but acceptable |
 
-### Heading Structure
+### Heading Structure Issues
 
-- **Homepage:** Heading structure not fully extractable due to Wix JS rendering
-- **Wedding page:** Good H1 ("Our Hog Roast Wedding Caterer London Services") followed by relevant H2s and H3s
-- **Our Food:** H2s only (no H1 visible in main content -- "Barbecue Menus" is an H1 but it's a secondary heading)
-- **Contact:** H1 ("Contact us") -- appropriately simple
+| Page | H1 Count | Issue |
+|------|----------|-------|
+| Spit Roasts | **6** | Catastrophic -- every section uses H1 |
+| Hog Roast Party | 1 | H1 text is: "If you haven't already, check our menu and if you want a quote, fill out the form below." -- not a proper heading |
+| Homepage | 1 | Good |
+| Wedding | 1 | Good |
+| Contact | 1 | Good |
+| Testimonials | 1 | Good |
 
-### Internal Linking
+### Meta Description Issues
 
-- **Good:** Main navigation links to key service pages
-- **Gap:** Blog posts don't link back to service pages consistently
-- **Gap:** No breadcrumb navigation
-- **Gap:** Testimonials page has no links to service pages or contact form
-- **Inconsistent email:** Two different email domains used (`@thegipsyhillsmokehouse.com` and `@gipsyhillsmokehouse.com`)
+| Page | Issue |
+|------|-------|
+| Testimonials | Apostrophe error: "client's" should be "clients" |
+| Spit Roasts | Updated with pricing info ("From £25.00 per head") -- good improvement |
+| Homepage | Updated since original audit -- now cleaner and more compelling |
 
 ---
 
-## Schema & Structured Data (Score: 10/100 | Weight: 10%)
+## Schema & Structured Data (Score: 5/100 | Weight: 10%)
 
 ### Current Implementation
 
-**No JSON-LD structured data was detected on any page.**
+**No JSON-LD structured data was detected on any page across the entire site.**
 
-This is a critical gap for a local service business.
+This is the single biggest gap for a local service business.
 
 ### Missing Schema Opportunities
 
 | Schema Type | Priority | Page(s) |
 |-------------|----------|---------|
-| `LocalBusiness` / `FoodService` | CRITICAL | All pages (footer/site-wide) |
-| `CateringBusiness` (schema.org) | CRITICAL | Homepage, Wedding, Private Parties |
-| `Review` / `AggregateRating` | HIGH | Testimonials page |
-| `FAQPage` | HIGH | Homepage, Wedding page (add FAQ section) |
-| `Article` / `BlogPosting` | MEDIUM | Blog posts (Wix may auto-add, but not confirmed) |
+| `CateringBusiness` (LocalBusiness subtype) | **CRITICAL** | All pages (site-wide via Wix Custom Code) |
+| `Review` / `AggregateRating` | **HIGH** | `/testimonials` (12 genuine reviews exist with no markup) |
+| `FAQPage` | HIGH | Wedding page, homepage (add FAQ sections) |
+| `Menu` | MEDIUM | `/our-food`, `/menus/wedding-menus`, `/gipsy-hill-smokehouse-menu` |
 | `BreadcrumbList` | MEDIUM | All pages |
+| `Article` / `BlogPosting` | MEDIUM | Blog posts |
 | `WebSite` with `SearchAction` | LOW | Homepage |
-| `Event` | LOW | Festival/event pages |
-
-### Recommended LocalBusiness Schema
-
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "CateringBusiness",
-  "name": "The Gipsy Hill Smokehouse",
-  "description": "Hog roast and BBQ catering for weddings, events, and parties in London",
-  "url": "https://www.thegipsyhillsmokehouse.com",
-  "telephone": "+447944390309",
-  "email": "timclements@thegipsyhillsmokehouse.com",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Gipsy Hill",
-    "addressRegion": "London",
-    "addressCountry": "GB"
-  },
-  "areaServed": {
-    "@type": "GeoCircle",
-    "geoMidpoint": { "@type": "GeoCoordinates", "latitude": 51.4220, "longitude": -0.0840 },
-    "geoRadius": "80467"
-  },
-  "foundingDate": "2004",
-  "priceRange": "$$",
-  "servesCuisine": ["Hog Roast", "BBQ", "Portuguese", "Spit Roast"],
-  "sameAs": [
-    "https://www.instagram.com/thegipsyhillsmokehouse",
-    "https://www.facebook.com/thegipsyhillsmokehouse",
-    "https://www.twitter.com/gh_smokehouse",
-    "https://www.youtube.com/channel/UCNn_UscR8fylPm-OQQEJEKg"
-  ]
-}
-```
 
 ---
 
-## Performance (Score: 65/100 | Weight: 10%)
-
-### Observations (Lab Data Unavailable -- No Google API Credentials)
+## Performance (Score: 60/100 | Weight: 10%)
 
 | Factor | Status | Notes |
 |--------|--------|-------|
-| Image Format | Good | Wix auto-serves AVIF/WebP with quality optimization |
+| Image Format | Good | Wix auto-serves AVIF/WebP |
 | CDN | Good | Wix CDN (`static.wixstatic.com`) |
-| Responsive Images | Good | Wix handles responsive image sizing |
-| Third-party Scripts | Concern | Smartarget WhatsApp widget (trial version with branding visible to crawlers) |
-| JavaScript Weight | Concern | Wix is JS-heavy; impacts FCP/LCP for crawlers |
-| Hero Image Sizes | Moderate | Some hero images are 1400-1733px wide |
+| Responsive Images | Good | Wix handles responsive sizing |
+| Third-party Scripts | Concern | Smartarget WhatsApp widget (expired trial, injects branding text) |
+| JavaScript Weight | Concern | Wix is JS-heavy; impacts FCP/LCP |
 
-### Third-Party Script Concern
+### Smartarget Widget Concern
 
-The **Smartarget WhatsApp widget** is on a trial/free plan and injects visible branding text into the page:
-> "Smartarget Apps are hidden. Your Smartarget Whatsapp - Contact Us is visible on the homepage only + Smartarget branding."
-
-This text is crawlable and appears as page content to search engines.
-
-**Recommendation:** Upgrade to paid plan or replace with a native Wix chat widget to eliminate injected branding text.
+The Smartarget WhatsApp widget trial has expired. It:
+- Overwrites `document.title` on the homepage with "(1)"
+- Injects visible "Smartarget Apps are hidden" branding text on non-homepage pages
+- This text is crawlable by search engines
 
 ---
 
@@ -239,46 +200,36 @@ This text is crawlable and appears as page content to search engines.
 |--------|--------|
 | `llms.txt` | Missing |
 | FAQ structured data | Missing |
-| Content citability | Moderate -- wedding page has good factual content |
-| Brand mention signals | Moderate -- notable client mentions (Kensington Palace, Gordon Ramsay, etc.) |
+| Content citability | Moderate -- wedding page has good factual content, notable client mentions |
+| Brand mention signals | Moderate -- Kensington Palace, Gordon Ramsay, Heston Blumenthal |
 | AI crawler access | Allowed (robots.txt permits `*`) |
 | Content structure for extraction | Poor -- no bullet-point summaries, no data tables |
-| Unique statistics/data | Missing -- no specific numbers (events catered, years, guest counts) |
-
-### Recommendations for AI Search Optimization
-
-1. Add an `llms.txt` file at the root
-2. Create FAQ sections on key pages with FAQPage schema
-3. Add specific, citable statistics ("Over 500 events catered since 2004", "Serving parties of 20 to 500+ guests")
-4. Structure content with clear headers, bullet points, and summary paragraphs
-5. Add a "Key Facts" section to the homepage for easy AI extraction
+| Unique statistics/data | Missing -- only one price point found ("From £25.00 per head") |
 
 ---
 
-## Images (Score: 60/100 | Weight: 5%)
+## Images (Score: 55/100 | Weight: 5%)
 
-### Image Optimization
+| Factor | Status |
+|--------|--------|
+| Homepage alt text | Good -- 15 images with alt, 0 without |
+| Wedding page alt text | Mixed -- 11 with alt, 3 without |
+| Our Food page | Mixed -- 4 with alt, 1 without |
+| AVIF/WebP format | Yes (Wix auto-converts) |
+| OG images | Several pages use generic Wix logo instead of page-specific images |
+
+---
+
+## Local SEO (Not Scored Separately)
 
 | Factor | Status | Notes |
 |--------|--------|-------|
-| Alt Text Present | Mostly | Most images have descriptive alt text |
-| AVIF/WebP Format | Yes | Wix auto-converts to modern formats |
-| Responsive Sizing | Yes | Wix handles `fill/w_XXX,h_XXX` sizing |
-| Lazy Loading | Likely | Wix handles via JS |
-
-### Alt Text Issues
-
-| Image | Alt Text | Issue |
-|-------|----------|-------|
-| Wedding hero | `IMG_4386_edited.jpg` | Filename used as alt text -- not descriptive |
-| Our Food hero | `Gipsy Hill Smokehouse Our Food_edited.jpg` | Filename-based, includes "_edited" |
-| Other images | Generally good | e.g., "Hog Roast Wedding Caterers, Spit Roasts & Barbecues" |
-
-### Missing Image SEO
-
-- No `<figcaption>` elements on images
-- No image sitemap entries visible
-- OG images are properly set across pages
+| Google Business Profile | **Not found** | Critical gap for a local service business |
+| NAP Consistency | Issue | Email domain inconsistency: site is `thegipsyhillsmokehouse.com` but wedding page shows `timclements@gipsyhillsmokehouse.com` |
+| Phone | Present | 07944 390 309 (in meta description and contact page) |
+| Service Area | Mentioned | "50-mile radius around London" on wedding page |
+| Location Pages | Minimal | Only 1 location page (Beckenham) |
+| External Citations | Some | Facebook, Poptop, Togather, Yelp, Opendi |
 
 ---
 
@@ -286,19 +237,54 @@ This text is crawlable and appears as page content to search engines.
 
 | Category | Weight | Score | Weighted |
 |----------|--------|-------|----------|
-| Technical SEO | 22% | 45/100 | 9.9 |
-| Content Quality | 23% | 55/100 | 12.7 |
-| On-Page SEO | 20% | 50/100 | 10.0 |
-| Schema / Structured Data | 10% | 10/100 | 1.0 |
-| Performance | 10% | 65/100 | 6.5 |
+| Technical SEO | 22% | 30/100 | 6.6 |
+| Content Quality | 23% | 52/100 | 12.0 |
+| On-Page SEO | 20% | 38/100 | 7.6 |
+| Schema / Structured Data | 10% | 5/100 | 0.5 |
+| Performance | 10% | 60/100 | 6.0 |
 | AI Search Readiness | 10% | 25/100 | 2.5 |
-| Images | 5% | 60/100 | 3.0 |
-| **TOTAL** | **100%** | | **45.6 ~ 46/100** |
+| Images | 5% | 55/100 | 2.8 |
+| **TOTAL** | **100%** | | **38.0 / 100** |
+
+### Score Change Since Original Audit (2026-04-12)
+
+| Category | Original | Current | Change |
+|----------|----------|---------|--------|
+| Technical SEO | 45 | 30 | -15 (4 noindexed pages, up from 1) |
+| Content Quality | 55 | 52 | -3 |
+| On-Page SEO | 50 | 38 | -12 (more issues discovered) |
+| Schema | 10 | 5 | -5 (confirmed zero across all pages) |
+| Performance | 65 | 60 | -5 |
+| AI Search | 25 | 25 | 0 |
+| Images | 60 | 55 | -5 |
+| **Overall** | **46** | **38** | **-8** |
+
+The decline is driven primarily by the discovery of additional `noindex` directives (now 4 pages instead of 1) and deeper on-page issues including the spit roasts page having 6 H1 tags and the hog roast party page having a sentence as its H1.
+
+---
+
+## Pages Audited
+
+1. Homepage (`/`)
+2. Wedding Caterer (`/hog-roast-wedding-caterer-london`)
+3. Private Parties (`/private-parties`)
+4. Event Catering (`/event-catering`)
+5. Hog Roast Party (`/hog-roast-party`)
+6. Our Food (`/our-food`)
+7. Contact Us (`/contact-us`)
+8. Testimonials (`/testimonials`)
+9. Spit Roasts (`/spit-roasts-hog-roasts`)
+10. Beckenham Location (`/hog-roast-catering-beckenham`)
+11. Gallery (`/gallery`)
+12. Wedding Menus (`/menus/wedding-menus`)
+13. Blog (`/blog`)
+14. robots.txt
 
 ---
 
 ## Notes
 
-- **No Google API credentials configured** -- CrUX field data, GSC indexation status, and GA4 traffic data unavailable. Configuring these would provide real-world performance metrics.
-- **No backlink API credentials** -- Unable to assess domain authority, referring domains, or toxic links.
-- **Wix platform limitations** -- Some technical SEO optimizations (server headers, advanced redirects, custom code injection) are limited by the Wix platform.
+- **Positive changes since original audit:** Homepage meta description and OG title have been updated and improved. Spit roasts page now includes pricing ("From £25.00 per head").
+- **Negative changes since original audit:** Spit roasts page has gained a `noindex` directive, bringing total blocked pages to 4.
+- **No Google API credentials configured** -- CrUX field data, GSC indexation status, and GA4 traffic unavailable.
+- **Wix platform limitations** apply to server headers, advanced redirects, and code injection options.
