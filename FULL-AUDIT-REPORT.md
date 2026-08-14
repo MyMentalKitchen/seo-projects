@@ -1,59 +1,51 @@
 # Full SEO Audit Report: Sicily4u
 
 **URL:** https://www.sicily4u.com
-**Date:** 2026-08-13
+**Date:** 2026-08-14
 **Business Type:** Luxury Villa Rental Agency (Sicily, Italy)
-**Platform:** WordPress 6.9.4 + WooCommerce 10.3.8
+**Platform:** WordPress 7.0.4 + WooCommerce 11.0.0
 **Pages Discovered:** ~190+ pages
-**SEO Health Score: 52/100**
+**SEO Health Score: 65/100**
 
 ---
 
 ## Executive Summary
 
-Sicily4u is a luxury villa rental business offering handpicked villas across Sicily. The site has a strong content foundation with 60+ villa listings, 35+ location pages, and 45+ blog posts covering Sicilian travel topics. However, it suffers from several **critical technical SEO issues** that are likely suppressing organic visibility significantly.
+Sicily4u is a luxury villa rental business offering handpicked villas across Sicily. The site has strong foundations: 65+ villa listings, 35+ location pages, 45+ blog posts, comprehensive schema markup (VacationRental with AggregateRating), and a well-implemented multilingual hreflang setup across four country domains. The biggest remaining opportunities are around **image alt text on villa pages**, **thin location page content**, and **heading structure fixes**.
 
-### Top 5 Critical Issues
+### Top 5 Issues Remaining
 
-1. **Conflicting robots meta tags on homepage & villa pages** -- both `index, follow` AND `noindex, nofollow` directives are present simultaneously. Google follows the most restrictive directive, meaning these pages may be **completely deindexed**
-2. **Duplicate viewport meta tags** on the homepage and villa pages (two different viewport values)
-3. **Location pages have thin content** -- Taormina page has only ~300 words; many location pages are just villa listing grids with minimal descriptive text
-4. **Villa pages have images without alt text** -- Villa Angelina has 58 images, all lacking alt attributes
-5. **No schema markup on the homepage** -- the most important page has no JSON-LD structured data
+1. **Villa pages have images without alt text** -- Villa Hera has 92 images, all lacking alt attributes. Across 65+ villas, this likely means thousands of images invisible to search and screen readers
+2. **Homepage has two H1 tags** -- "Your Sicily Villa Awaits" and "Beautiful Villas In Sicily"; should only have one
+3. **Location pages have very thin content** -- Taormina page is primarily a villa grid with minimal descriptive text
+4. **Blog post images missing alt text** -- Best Beaches page has 10/15 images without alt
+5. **Blog posts lack Article/BlogPosting schema** -- only WebPage/BreadcrumbList present; no Article-specific structured data
 
 ### Top 5 Quick Wins
 
-1. **Fix the conflicting robots meta tags immediately** -- remove the `noindex, nofollow` directive (likely from a plugin conflict or WooCommerce setting)
-2. **Remove the duplicate viewport meta tag** -- keep only `width=device-width, initial-scale=1`
-3. **Add alt text to all villa images** -- 58+ images on a single villa page lack alt text
-4. **Add LocalBusiness/LodgingBusiness JSON-LD schema to the homepage**
-5. **Expand location page content** to 800+ words per page with local travel information
+1. **Add alt text to all villa images** -- prioritize the top 10 most popular villas
+2. **Fix homepage H1** -- convert second H1 ("Beautiful Villas In Sicily") to H2
+3. **Add alt text to blog post images** -- 10 missing on Best Beaches alone
+4. **Add Article/BlogPosting schema** to blog posts
+5. **Expand location page content** to 800+ words with local travel information
 
 ---
 
-## Technical SEO (Score: 45/100 | Weight: 22%)
+## Technical SEO (Score: 72/100 | Weight: 22%)
 
 ### Crawlability
 
 | Check | Status | Notes |
 |-------|--------|-------|
-| robots.txt | Present | Properly configured; blocks wp-admin, cart, checkout, my-account |
-| XML Sitemap | Present | 7 sub-sitemaps (posts, pages, room types, categories, tags, locations) |
+| robots.txt | Present | Well-configured; blocks wp-admin, cart, checkout, my-account |
+| XML Sitemap | Present | 7 sub-sitemaps (posts, pages, villas, categories, tags, locations) |
 | HTTPS | Yes | SSL active, site served over HTTPS |
 | www Redirect | Yes | `www.sicily4u.com` redirects to `sicily4u.com` |
 | Content-Type | Good | `text/html; charset=UTF-8` |
-| WordPress Version | 6.9.4 | Current |
-| WooCommerce Version | 10.3.8 | Current |
-
-### Indexability Issues
-
-| Issue | Severity | Pages Affected |
-|-------|----------|----------------|
-| Conflicting robots meta: `index, follow` + `noindex, nofollow` on same page | **CRITICAL** | Homepage, all villa/accommodation pages |
-| Duplicate viewport meta tags (two different values) | HIGH | Homepage, villa pages |
-| Canonical on Taormina location page points to `/accommodation-category/` URL instead of `/locations/taormina/` | HIGH | Location pages |
-| Homepage has TWO H1 tags | MEDIUM | Homepage |
-| Blog pages only have single robots directive (correct) | OK | Blog posts, content pages |
+| Robots Meta | Good | Single `index, follow` directive across all pages |
+| Viewport | Good | Single viewport tag: `width=device-width, initial-scale=1` |
+| WordPress Version | 7.0.4 | Current |
+| WooCommerce Version | 11.0.0 | Current |
 
 ### robots.txt Analysis
 
@@ -86,23 +78,12 @@ Sitemap: https://sicily4u.com/sitemap_index.xml
 | `mphb_room_type_tag-sitemap.xml` | Accommodation tags (beach, pool, sea views, etc.) |
 | `mphb_ra_locations-sitemap.xml` | Location pages (~35 locations) |
 
-### Critical Bug: Conflicting Robots Meta Tags
+### Remaining Technical Issues
 
-The homepage and all villa/accommodation pages output TWO conflicting robots meta tags:
-
-```html
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-<meta name="robots" content="noindex, nofollow">
-```
-
-**Impact:** When Google encounters conflicting directives, it follows the most restrictive one. This means the homepage and all villa pages are likely being treated as `noindex, nofollow`, effectively telling Google NOT to index these pages and NOT to follow their links.
-
-**Likely Cause:** A plugin conflict -- probably WooCommerce or the MotoPress Hotel Booking plugin is injecting the second `noindex, nofollow` tag. The first tag is from Yoast SEO / RankMath.
-
-**Fix Priority:** IMMEDIATE. This single issue could be responsible for massive organic traffic loss.
-
-**Affected pages:** Homepage, all `/accommodation/*` villa pages
-**Unaffected pages:** Blog posts (e.g., `/best-beaches-in-sicily`), location pages (e.g., `/locations/taormina`) -- these only have the correct single directive
+| Issue | Severity | Notes |
+|-------|----------|-------|
+| Homepage has two H1 tags | MEDIUM | "Your Sicily Villa Awaits" and "Beautiful Villas In Sicily" |
+| OG title mismatch with page title | LOW | OG: "Handpicked Luxury Sicily Villas..." vs page title: different in some extractions |
 
 ---
 
@@ -112,146 +93,145 @@ The homepage and all villa/accommodation pages output TWO conflicting robots met
 
 | Signal | Score | Notes |
 |--------|-------|-------|
-| Experience | Good | Curated villa collection suggests hands-on property knowledge; local expertise evident in blog content |
-| Expertise | Good | Detailed location guides, cultural content (Sicilian food, history, traditions), travel tips |
-| Authoritativeness | Moderate | Reviews platform at `reviews.sicily4u.com` via iLodge; also operates `sicily4u.co.uk` |
-| Trustworthiness | Moderate | SSL active, privacy policy present, contact page available; no visible trust badges or industry certifications |
+| Experience | Good | Curated villa collection, hands-on property knowledge, local expertise in blog content |
+| Expertise | Good | Detailed location guides, cultural content (food, history, traditions), travel tips |
+| Authoritativeness | Good | Reviews via iLodge at `reviews.sicily4u.com`; operates across 4 country domains |
+| Trustworthiness | Moderate | SSL active, privacy policy, contact page; no visible industry certifications |
 
 ### Content Depth by Page Type
 
 | Page Type | Example | Word Count | Quality |
 |-----------|---------|-----------|--------|
-| Homepage | `/` | ~2,261 | Good -- strong keyword presence, featured villas, CTA |
-| Villa Listing | `/accommodation/villa-angelina` | ~1,263 | Good -- detailed descriptions, amenities, pricing |
-| Blog Post | `/best-beaches-in-sicily` | ~2,129 | Good -- well-structured with H2s, internal links |
-| Location Page | `/locations/taormina` | ~300 | **Very Thin** -- mostly just villa listing grid |
-| Travel Guide | `/sicily-travel-tips` | Unknown | Needs review |
-| FAQ Page | `/faqs` | Unknown | Present -- good for SEO |
+| Homepage | `/` | ~2,463 | Good -- strong keyword presence, featured villas, CTAs |
+| Villa Listing | `/accommodation/villa-hera` | ~2,471 | Good -- detailed descriptions, amenities, pricing |
+| Blog Post | `/best-beaches-in-sicily` | ~3,484 | Excellent -- comprehensive, well-structured |
+| FAQ Page | `/faqs` | ~2,016 | Good -- covers booking, pricing, travel planning |
+| Location Page | `/locations/taormina` | Very thin | **Needs work** -- primarily a villa listing grid |
 
 ### Content Strengths
 
 - **Strong blog content strategy** with 45+ articles covering diverse Sicily topics
-- Topics align well with search intent: "best beaches in sicily", "things to do in [city]", "godfather filming locations", "White Lotus locations"
-- Good mix of evergreen content and seasonal content (Christmas, Easter, October)
+- Topics align well with search intent: "best beaches in sicily", "things to do in [city]", "godfather filming locations", "White Lotus locations", "Sicily with kids"
+- Good mix of evergreen and seasonal content (Christmas, Easter, October, September)
 - Content targets multiple user intents (informational, transactional, navigational)
+- FAQ page with 2,000+ words of useful booking/travel content
 
 ### Content Gaps
 
-- **Location pages are critically thin** (~300 words) -- these should be comprehensive local guides (800-1,500 words)
-- **No pricing page or pricing transparency** -- competitors like Italian Breaks and A&K Villas show price ranges
+- **Location pages are thin** -- Taormina is primarily a villa grid with minimal descriptive text; should be 800-1,500 words with local travel info, restaurants, attractions
 - **Duplicate content risk**: Two similar pages for "Is Sicily Safe" (`/is-sicily-safe-a-comprehensive-guide-for-tourists` and `/is-sicily-safe-a-practical-guide`)
-- **Test page visible**: `/test-blog` is publicly accessible and indexed
 - **Outdated content**: `/visit-sicily-in-2025-a-perfect-holiday-awaits` needs updating for 2026
-- **No author pages or author bios** on blog posts (important for E-E-A-T)
+- **No author pages or author bios** on blog posts (E-E-A-T gap)
+- **Test page visible**: `/test-blog` may still be publicly accessible
 
 ---
 
-## On-Page SEO (Score: 55/100 | Weight: 20%)
+## On-Page SEO (Score: 60/100 | Weight: 20%)
 
 ### Title Tags
 
 | Page | Title | Length | Quality |
 |------|-------|--------|--------|
 | Homepage | Handpicked Luxury Sicily Villas For A Relaxing Vacation - Sicily4u | 64 chars | Good |
-| Villa Angelina | Villa Angelina - Sicily4u | 25 chars | Too short -- should include location & key features |
-| Best Beaches | Best Beaches in Sicily - Sicily4u | 33 chars | Good but could include year |
+| Villa Hera | Villa Hera - Sicily4u | 21 chars | Too short -- should include location & key features |
+| Best Beaches | Best Beaches in Sicily - Sicily4u | 33 chars | Good |
 | Taormina | Luxury Villas in Taormina, Sicily - Sicily4u | 45 chars | Good |
-| Sicily Villas | Sicily Villas - Sicily4u | 24 chars | Too generic and short |
+| FAQs | Sicily Villa Rental FAQs - Sicily4u | 35 chars | Good |
 
 ### Meta Descriptions
 
 | Page | Description | Length | Quality |
 |------|-------------|--------|--------|
-| Homepage | "Looking for luxury Sicily villas? Browse our curated collection of beautiful Sicilian villas for an unforgettable vacation across Sicilia." | 136 chars | Good |
-| Villa Angelina | "Villa Angelina is a luxurious seafront property with a private swimming pool, located on the Maddalena Peninsula near Syracuse." | 126 chars | Good |
-| Best Beaches | "Discover the best beaches in Sicily for swimming, snorkeling, sunsets, and more. Plan your perfect seaside escape with our expert tips." | 134 chars | Good |
-| Taormina | "Taormina offers sea views, historic streets, and easy access to beaches and Etna..." | 82 chars | OK but could be more compelling |
+| Homepage | "Looking for luxury Sicily villas? Browse our curated collection..." | 136 chars | Good |
+| Villa Hera | "Villa Hera offers sea views, a saltwater pool, and luxury spaces near Taormina..." | ~130 chars | Good |
+| Best Beaches | "Discover the best beaches in Sicily for swimming, snorkeling, sunsets..." | 134 chars | Good |
+| Taormina | "Taormina offers sea views, historic streets, and easy access to beaches and Etna..." | ~130 chars | Good |
+| FAQs | "Find answers about booking luxury villas in Sicily, payments, cancellations..." | ~130 chars | Good |
 
 ### Heading Structure
 
 **Homepage Issues:**
-- TWO H1 tags: "Luxury Sicily Villas" and "Beautiful Villas In Sicily" -- should only have one H1
-- H2s used for villa names (Villa Angelina, Villa Tauro, etc.) -- these would be better as H3s under a "Featured Villas" H2
+- **TWO H1 tags**: "Your Sicily Villa Awaits" and "Beautiful Villas In Sicily" -- should only have one H1
+- H2s include "Featured Sicily Villas" and individual villa names -- structure is logical but H1 needs fixing
 
 **Villa Pages (Good):**
-- Single H1: "Villa Angelina Plemmirio"
-- Logical H2 structure: Property features, Details, Availability, More information
+- Single H1: "Villa Hera Giardini Naxos"
+- Logical H2 structure: Property features, Details, Availability, Included in rental price
 
 **Blog Posts (Good):**
 - Single H1 as page title
-- Well-structured H2/H3 hierarchy
+- Well-structured H2 hierarchy with question-based headings (good for featured snippets)
 
-**Location Pages (Issues):**
-- Good H1 but H2s are just villa names with no descriptive content sections
+**Location Pages (Needs Work):**
+- Single H1 but minimal content below it
 
-### Internal Linking Analysis
+### Internal Linking
 
 | Page Type | Internal Links | Assessment |
 |-----------|---------------|------------|
-| Homepage | 52 | Good -- links to villas, locations, blog |
-| Villa Angelina | 67 | Good -- extensive cross-linking |
-| Best Beaches Blog | 10 | Moderate -- could link to more villa/location pages |
-| Taormina Location | 10 | Low -- needs more contextual links to blog content |
+| Homepage | 60 | Good -- comprehensive cross-linking |
+| Villa Hera | 30 | Good |
+| Best Beaches Blog | 35 | Good -- links to villas and locations |
+| Taormina Location | 39 | Good link count, but needs more contextual content |
 
 ### URL Structure
 
-- **Good:** Clean, readable URLs (`/accommodation/villa-angelina`, `/locations/taormina`)
+- **Good:** Clean, readable URLs (`/accommodation/villa-hera`, `/locations/taormina`)
 - **Good:** Blog posts use descriptive slugs (`/best-beaches-in-sicily`)
-- **Concern:** Some URLs are very long (`/abandoned-sicilian-ghost-town-villages-that-are-beautiful-and-charming-like-isnello`)
-- **Concern:** Accommodation category URLs use compass directions (`/accommodation-category/east-northeast/`) which are not intuitive for users or search
+- **Concern:** Some blog URLs are very long
+- **Concern:** Accommodation category URLs use compass directions (`/accommodation-category/east-northeast/`) which are not intuitive
 
 ---
 
-## Schema & Structured Data (Score: 30/100 | Weight: 10%)
+## Schema & Structured Data (Score: 75/100 | Weight: 10%)
 
 ### Current Implementation
 
-| Page | Schema Types Found | Assessment |
-|------|--------------------|------------|
-| Homepage | WebSite, Organization (from metadata) | Minimal -- no LodgingBusiness |
-| Villa Angelina | None detected in JSON extraction | **Missing** -- should have LodgingBusiness/Hotel |
-| Best Beaches Blog | None detected | **Missing** -- should have Article |
-| Taormina Location | None detected | **Missing** -- should have LocalBusiness |
+| Page Type | Schema Types Present | Assessment |
+|-----------|---------------------|------------|
+| Homepage | WebPage, BreadcrumbList, WebSite (with SearchAction), Organization, ImageObject | Good |
+| Villa Pages | WebPage, BreadcrumbList, WebSite, Organization + **VacationRental, Accommodation, AggregateRating, GeoCoordinates, PostalAddress, PropertyValue** | Excellent |
+| Blog Posts | WebPage, BreadcrumbList, WebSite, Organization | Good -- but missing Article/BlogPosting |
+| FAQ Page | Needs verification | Should have FAQPage schema |
+| Location Pages | Needs verification | Should have Place/LocalBusiness |
 
-**Note:** Earlier extractions suggested some schema presence (Hotel, LodgingBusiness on villa pages), but the most recent scrape found none. This inconsistency suggests schema may be partially implemented or broken.
+### Strengths
 
-### Missing Schema Opportunities
+- **VacationRental schema on villa pages** with Accommodation details, AggregateRating, GeoCoordinates, and PropertyValue -- comprehensive and well-implemented
+- **BreadcrumbList** present across all page types
+- **WebSite schema with SearchAction** enables sitelinks search box in SERPs
+- **Organization schema** provides brand entity signals
+
+### Remaining Gaps
 
 | Schema Type | Priority | Pages |
 |-------------|----------|-------|
-| `LodgingBusiness` / `VacationRental` | CRITICAL | Homepage, all villa pages |
-| `Accommodation` with pricing | CRITICAL | Individual villa pages |
-| `AggregateRating` / `Review` | HIGH | Villa pages (reviews exist at reviews.sicily4u.com) |
-| `FAQPage` | HIGH | `/faqs` page, homepage |
-| `Article` / `BlogPosting` | HIGH | All blog posts |
-| `BreadcrumbList` | MEDIUM | All pages |
-| `Organization` | MEDIUM | Homepage, About page |
-| `Place` | MEDIUM | Location pages |
-| `ImageObject` | LOW | Villa gallery pages |
+| `Article` / `BlogPosting` | HIGH | All blog posts (currently only WebPage) |
+| `FAQPage` | MEDIUM | `/faqs` page |
+| `Place` / `TouristDestination` | MEDIUM | Location pages |
 
-### Recommended Homepage Schema
+---
 
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "LodgingBusiness",
-  "name": "Sicily4u",
-  "description": "Handpicked luxury Sicily villas for a relaxing vacation",
-  "url": "https://sicily4u.com",
-  "image": "https://sicily4u.com/wp-content/uploads/2025/12/villa-mulberry-webp-3.webp",
-  "address": {
-    "@type": "PostalAddress",
-    "addressRegion": "Sicily",
-    "addressCountry": "IT"
-  },
-  "areaServed": {
-    "@type": "Place",
-    "name": "Sicily, Italy"
-  },
-  "priceRange": "$$$",
-  "sameAs": []
-}
-```
+## Internationalization (Score: 80/100 | Weight: 5%)
+
+### hreflang Implementation
+
+The site has a well-implemented multilingual hreflang setup with custom tags (`<!-- S4U hreflang tags -->`):
+
+| Language | Domain | Status |
+|----------|--------|--------|
+| `en-US` | `https://sicily4u.com/` | Active |
+| `en-GB` | `https://www.sicily4u.co.uk/` | Active |
+| `de-CH` | `https://www.sizilienferien.ch/` | Active |
+| `fr` | `https://www.sicily4u.fr/` | Active |
+| `x-default` | `https://sicily4u.com/` | Present |
+
+**Assessment:** Properly structured hreflang implementation covering English (US + UK), German-Swiss, and French markets with an appropriate x-default fallback. The use of separate country-specific domains shows a serious international strategy.
+
+### Remaining Items to Verify
+
+- Confirm hreflang tags are present and correct on all inner pages (not just homepage)
+- Confirm that corresponding pages on `.co.uk`, `.ch`, and `.fr` domains have reciprocal hreflang tags pointing back
 
 ---
 
@@ -270,42 +250,32 @@ The homepage and all villa/accommodation pages output TWO conflicting robots met
 | og:site_name | `Sicily4u` | `Sicily4u` | `Sicily4u` |
 | twitter:card | `summary_large_image` | `summary_large_image` | `summary_large_image` |
 
-**Assessment:** Social meta tags are well-implemented across all page types. OG images are present. Twitter cards configured.
-
-### Issues
-
-- Villa pages use `og:type: article` instead of more appropriate `og:type: website` or `place`
-- OG images on villa pages use JPEG format (`.jpg`) while homepage uses WebP -- inconsistent optimization
+**Assessment:** Social meta tags are well-implemented. OG images present on all page types. Twitter cards configured.
 
 ---
 
-## Images (Score: 40/100 | Weight: 5%)
+## Images (Score: 45/100 | Weight: 5%)
 
 ### Image Optimization
 
 | Factor | Status | Notes |
 |--------|--------|-------|
-| Alt Text | **Poor** | Villa Angelina: 58/58 images missing alt text |
-| Image Formats | Mixed | Homepage uses WebP; villa pages use JPEG |
-| Lazy Loading | Likely | WordPress native lazy loading expected |
-| OG Images | Present | All page types have OG images |
-| Responsive Images | Partial | Some images specify dimensions in URL |
+| Homepage Alt Text | **Good** | 119 images, 0 missing alt text |
+| Villa Page Alt Text | **Poor** | Villa Hera: 92/92 images missing alt text |
+| Blog Alt Text | **Mixed** | Best Beaches: 10/15 images missing alt text |
+| Location Page Alt Text | **Good** | Taormina: 21 images, 0 missing alt |
+| Image Formats | Mixed | Homepage uses WebP; villa/blog pages use JPEG |
 
-### Alt Text Issues (Critical)
+### Alt Text Issues (Significant)
 
-Villa pages appear to have **zero alt text** on property images. With 58+ images per villa page and 65+ villa pages, this means potentially **3,700+ images without alt text** across the site.
+Villa pages have a major alt text problem. Villa Hera has **92 images with zero alt text**. Across 65+ villas, this likely means thousands of images without alt text.
 
 **Impact:**
 - Lost image search traffic for high-value queries like "luxury villa sicily pool"
 - Accessibility compliance failure (WCAG 2.1)
 - Missed keyword reinforcement opportunities
 
-### Image Format Issues
-
-- Homepage hero: WebP format (good)
-- Villa listing images: JPEG format (should be WebP)
-- Blog post images: JPEG format (should be WebP)
-- No AVIF adoption detected
+Blog posts also have inconsistent alt text -- Best Beaches has 10/15 images missing alt.
 
 ---
 
@@ -316,54 +286,29 @@ Villa pages appear to have **zero alt text** on property images. With 58+ images
 | Check | Status | Notes |
 |-------|--------|-------|
 | Responsive Design | Yes | `viewport: width=device-width, initial-scale=1` |
-| Mobile Viewport | Present | But duplicated on some pages with conflicting values |
+| Single Viewport Tag | Yes | No duplicates |
 | Touch Icons | Present | Apple touch icon configured |
-| Mobile Menu | Yes | Hamburger navigation expected |
-
-### Duplicate Viewport Issue
-
-Homepage and villa pages have TWO viewport meta tags:
-```html
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-```
-
-The second tag with `maximum-scale=1` **prevents users from zooming** on mobile, which is an accessibility violation and may negatively impact Core Web Vitals.
 
 ### Performance Indicators
 
 | Factor | Status | Notes |
 |--------|--------|-------|
 | CDN | Unknown | No evidence of external CDN |
-| Preconnect Hints | Present | `fonts.googleapis.com`, `fonts.gstatic.com` |
-| CSS Framework | Bootstrap | Standard framework, well-optimized |
-| JS Framework | jQuery | Expected for WordPress |
-| Script Count | ~15 | Moderate -- could be optimized |
-| Stylesheet Count | ~5 | Good |
+| Image Format | Mixed | Homepage WebP, villa/blog pages JPEG |
 | Google Analytics | Present | Tracking active |
 | Google Tag Manager | Present | Tag management active |
 
 ---
 
-## Internationalization (Score: 50/100 | Weight: 5%)
+## AI Search Readiness (Score: 30/100 | Weight: 2%)
 
-### hreflang Tags
-
-Homepage has hreflang tags for:
-
-| Language | URL |
-|----------|-----|
-| `en` | `https://sicily4u.com/` |
-| `it` | `https://sicily4u.com/` |
-| `es` | `https://sicily4u.com/` |
-
-### Issues
-
-- **All hreflang tags point to the same URL** -- the English version. This suggests the Italian and Spanish translations either don't exist or aren't properly linked
-- **German (`de`) hreflang was detected in an earlier scrape but missing in the latest** -- inconsistency
-- **No `x-default` hreflang tag** specified
-- **Separate UK domain** (`sicily4u.co.uk`) exists but no hreflang relationship established between `.com` and `.co.uk`
-- HTML `lang` attribute is set to `en` (correct for English content)
+| Factor | Status |
+|--------|--------|
+| `llms.txt` | Missing |
+| FAQ structured data | FAQPage schema not confirmed |
+| Content citability | Good -- blog posts have strong factual content |
+| AI crawler access | Allowed (robots.txt permits all) |
+| Content structure | Good -- question-based H2s in blog posts |
 
 ---
 
@@ -381,41 +326,14 @@ Homepage has hreflang tags for:
 | DiCasaInSicilia | dicasainsicilia.com | Exclusive collection |
 | Isula Travel | luxury-villas-in-sicily.com | SEO-optimized domain |
 | Select Sicily Villas | selectsicilyvillas.com | Established UK market |
-| Sicily Luxury Villas | sicilyluxuryvillas.com | Keyword-rich domain |
 
 ### Competitive Advantages for Sicily4u
 
 - Strong blog content covering Sicilian culture, food, travel
 - Good location coverage (35+ distinct locations)
 - Reviews platform (reviews.sicily4u.com)
-- Multi-language intent (hreflang tags, even if broken)
-
-### Competitive Gaps
-
-- Competitors have cleaner technical SEO (no robots conflicts)
-- Several competitors have richer schema markup (AggregateRating, pricing)
-- Competitors like A&K Villas have stronger brand authority signals
-- `sicilyluxuryvillas.com` and `luxury-villas-in-sicily.com` have keyword-rich exact-match domains
-
----
-
-## AI Search Readiness (Score: 25/100 | Weight: 5%)
-
-| Factor | Status |
-|--------|--------|
-| `llms.txt` | Missing |
-| FAQ structured data | Missing (FAQ page exists but no FAQPage schema) |
-| Content citability | Moderate -- blog posts have good factual content |
-| AI crawler access | Allowed (robots.txt permits all) |
-| Content structure for extraction | Moderate -- blog posts well-structured; villa pages less so |
-| Unique data / statistics | Missing -- no specific statistics about properties, guest counts, etc. |
-
-### Recommendations
-
-1. Add an `llms.txt` file at the site root
-2. Add FAQPage schema to the existing `/faqs` page
-3. Add citable statistics ("65+ handpicked villas", "35+ locations across Sicily", "Since [year]")
-4. Ensure blog content has clear summary paragraphs at the top for AI extraction
+- Four-domain international presence (.com, .co.uk, .ch, .fr) with proper hreflang
+- VacationRental schema with AggregateRating on villa pages
 
 ---
 
@@ -423,16 +341,16 @@ Homepage has hreflang tags for:
 
 | Category | Weight | Score | Weighted |
 |----------|--------|-------|----------|
-| Technical SEO | 22% | 45/100 | 9.9 |
+| Technical SEO | 22% | 72/100 | 15.8 |
 | Content Quality | 23% | 60/100 | 13.8 |
-| On-Page SEO | 20% | 55/100 | 11.0 |
-| Schema / Structured Data | 10% | 30/100 | 3.0 |
+| On-Page SEO | 20% | 60/100 | 12.0 |
+| Schema / Structured Data | 10% | 75/100 | 7.5 |
 | Performance | 8% | 60/100 | 4.8 |
 | Open Graph & Social | 5% | 70/100 | 3.5 |
-| Images | 5% | 40/100 | 2.0 |
-| Internationalization | 5% | 50/100 | 2.5 |
-| AI Search Readiness | 2% | 25/100 | 0.5 |
-| **TOTAL** | **100%** | | **51.0 ~ 52/100** |
+| Images | 5% | 45/100 | 2.3 |
+| Internationalization | 5% | 80/100 | 4.0 |
+| AI Search Readiness | 2% | 30/100 | 0.6 |
+| **TOTAL** | **100%** | | **64.3 ~ 65/100** |
 
 ---
 
@@ -440,84 +358,49 @@ Homepage has hreflang tags for:
 
 ### Immediate (This Week)
 
-1. **FIX ROBOTS META TAG CONFLICT** -- Identify and disable the plugin/theme outputting `noindex, nofollow`. Check WooCommerce settings > Visibility, MotoPress Hotel Booking settings, and any caching plugins. This is the single most impactful fix.
-2. **Remove duplicate viewport meta tag** -- Keep only `width=device-width, initial-scale=1`
-3. **Remove or noindex `/test-blog`** -- Test page is publicly visible
-4. **Fix Taormina canonical URL** -- Should point to `/locations/taormina/` not `/accommodation-category/east-northeast/luxury-villa-taormina/`
+1. **Add alt text to all villa images** -- Villa Hera has 92 images with no alt text; prioritize the top 10 most popular villas. Use descriptive text: "Private pool with sea view at Villa Hera, Giardini Naxos, Sicily"
+2. **Fix homepage H1** -- remove or convert second H1 ("Beautiful Villas In Sicily") to H2
+3. **Add alt text to blog post images** -- Best Beaches has 10/15 images missing alt
 
 ### Short-Term (Next 2 Weeks)
 
-5. **Add alt text to all villa images** -- Prioritize top 10 most-viewed villas first
-6. **Fix homepage H1** -- Remove second H1 ("Beautiful Villas In Sicily"), convert to H2
-7. **Add LodgingBusiness schema to homepage**
-8. **Add Hotel/VacationRental schema to villa pages** with pricing, ratings, availability
-9. **Improve villa page title tags** -- Include location and key feature (e.g., "Villa Angelina | Seafront Villa with Pool in Syracuse - Sicily4u")
-10. **Fix hreflang tags** -- Either implement proper multilingual versions or remove broken hreflang tags
+4. **Add Article/BlogPosting schema** to all blog posts (currently only WebPage)
+5. **Improve villa page title tags** -- include location and key features (e.g., "Villa Hera | Luxury Villa with Pool in Giardini Naxos - Sicily4u")
+6. **Verify FAQPage schema** on the `/faqs` page -- add if missing
+7. **Remove or noindex `/test-blog`** if still publicly accessible
 
 ### Medium-Term (Next Month)
 
-11. **Expand location page content** to 800-1,500 words each with local travel info, restaurants, attractions
-12. **Add FAQPage schema** to the existing `/faqs` page
-13. **Add Article/BlogPosting schema** to all blog posts
-14. **Consolidate duplicate content** -- Merge the two "Is Sicily Safe" articles
-15. **Update outdated content** -- Update "Visit Sicily in 2025" to 2026
-16. **Convert villa images to WebP format**
-17. **Add breadcrumb navigation** and BreadcrumbList schema to all pages
+8. **Expand location page content** to 800-1,500 words each with local travel info, restaurants, top attractions, best time to visit
+9. **Consolidate duplicate content** -- merge two "Is Sicily Safe" articles into one comprehensive guide
+10. **Update outdated content** -- refresh "Visit Sicily in 2025" for 2026
+11. **Convert villa and blog images to WebP format**
+12. **Add Place/TouristDestination schema** to location pages
 
 ### Long-Term (Next Quarter)
 
-18. **Implement proper multilingual site** (IT, ES, DE versions) or remove hreflang tags
-19. **Establish hreflang relationship** between sicily4u.com and sicily4u.co.uk
-20. **Add `llms.txt`** for AI search optimization
-21. **Build internal linking strategy** -- Blog posts should link to relevant villa and location pages
-22. **Add review/rating schema** pulling from reviews.sicily4u.com
-23. **Create author bio pages** for blog content (E-E-A-T)
-24. **Add pricing transparency** -- Show price ranges on villa pages for better click-through from SERPs
+13. **Verify reciprocal hreflang** on all international domains (.co.uk, .ch, .fr)
+14. **Add `llms.txt`** for AI search optimization
+15. **Build internal linking strategy** -- ensure blog posts consistently link to relevant villa and location pages
+16. **Create author bio pages** for blog content (E-E-A-T)
+17. **Add pricing transparency** -- show price ranges on villa listing pages for better SERP click-through
 
 ---
 
-## Site Structure Overview
+## International Domains
 
-```
-sicily4u.com/
-├── / (Homepage)
-├── /sicily-villas (Main villas page)
-├── /accommodation/ (65+ individual villa pages)
-│   ├── /villa-angelina
-│   ├── /villa-tauro
-│   ├── /villa-nemo
-│   └── ... (62+ more)
-├── /locations/ (35+ location pages)
-│   ├── /taormina
-│   ├── /cefalu
-│   ├── /noto
-│   └── ... (32+ more)
-├── /accommodation-category/ (Regional groupings)
-│   ├── /east-northeast/
-│   ├── /south-southeast/
-│   ├── /north-northwest/
-│   └── /west-southwest/
-├── /accommodation-tag/ (Feature tags)
-│   ├── /beach-villas-in-sicily
-│   ├── /luxury-sicily-villas-with-pool
-│   └── ... (4+ more)
-├── /blog (45+ articles)
-│   ├── /best-beaches-in-sicily
-│   ├── /things-to-do-in-sicily
-│   ├── /godfather-sicily-filming-locations
-│   └── ... (42+ more)
-├── /category/ (10 blog categories)
-├── /about-us
-├── /contact-us
-├── /faqs
-├── /privacy-policy
-└── /terms-conditions
-```
+| Domain | Market | Language |
+|--------|--------|----------|
+| sicily4u.com | US / Global | English |
+| sicily4u.co.uk | United Kingdom | English |
+| sizilienferien.ch | Switzerland | German |
+| sicily4u.fr | France | French |
 
 ---
 
 ## Notes
 
-- **No Google Search Console or PageSpeed API data available** -- Configuring GSC access would provide real indexation status, crawl errors, and Core Web Vitals field data
-- **No backlink data available** -- Unable to assess domain authority, referring domains, or link quality without Ahrefs/Semrush/Moz access
-- **The conflicting robots meta tag issue is so severe that it should be treated as a site emergency** -- if Google is honoring the `noindex` directive, the site's entire villa inventory and homepage may be invisible in search results
+- All data in this report was fetched live on 2026-08-14 using forced fresh scrapes (no cache)
+- **No Google Search Console or PageSpeed API data available** -- configuring GSC access would provide real indexation status, crawl errors, and Core Web Vitals field data
+- **No backlink data available** -- unable to assess domain authority, referring domains, or link quality without Ahrefs/Semrush/Moz access
+- The site has made significant improvements recently: robots meta conflicts resolved, comprehensive schema markup added (VacationRental with AggregateRating), hreflang properly implemented across four country domains, and viewport duplicates removed
