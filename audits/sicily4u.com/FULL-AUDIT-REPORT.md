@@ -1,370 +1,239 @@
-# Full SEO Audit Report: Sicily4u
+# Full SEO Audit Report: Sicily4u (Re-Audit)
 
 **URL:** https://www.sicily4u.com
-**Date:** 2026-04-13
-**Business Type Detected:** Luxury Villa Rental Agency (Sicily, Italy)
-**Platform:** WordPress 6.9.4 + WooCommerce 10.3.8 + MotoPress Hotel Booking (Booklium theme)
-**Pages Discovered:** ~170 pages (65 villa/accommodation pages, 35 location pages, 20 blog/content pages, 10 category/tag pages, 8 utility pages, 7 sitemap XML files)
-**SEO Health Score: 42/100**
+**Date:** 2026-08-13
+**Previous Audit:** 2026-04-13 (score: 42/100)
+**Business Type:** Luxury Villa Rental Agency (Sicily, Italy)
+**Platform:** WordPress 7.0.4 + WooCommerce 11.0.0 + MotoPress Hotel Booking (Booklium theme)
+**Pages Discovered:** ~170+ pages (65+ villa/accommodation pages, 35+ location pages, 20+ blog/content pages, category/tag pages, utility pages)
+**SEO Health Score: 57/100 (up from 42/100)**
 
 ---
 
 ## Executive Summary
 
-Sicily4u is a luxury villa rental specialist offering handpicked properties across Sicily. The site runs on WordPress with WooCommerce and MotoPress Hotel Booking. While the site has a well-organised URL structure, good content breadth, and proper HTTPS, it suffers from **devastating technical SEO issues** that are almost certainly suppressing search visibility.
+Since the April 2026 audit, Sicily4u has made **significant progress on the most critical technical SEO issues**. The devastating conflicting robots meta tags (`noindex, nofollow` alongside `index, follow`) have been resolved on all pages, the duplicate viewport tags are gone, and the robots.txt now returns HTTP 200 with proper directives. WordPress and WooCommerce have also been upgraded.
 
-The most damaging issue is **conflicting robots meta tags** on the homepage and all ~65 villa detail pages. These pages simultaneously output `index, follow` and `noindex, nofollow` directives, likely due to a WooCommerce or MotoPress plugin conflict. Google's documented behavior is to honor the most restrictive directive, meaning **the site's most important commercial pages may be de-indexed entirely.**
+However, **the site's largest remaining gap is structured data** — there is still zero JSON-LD markup anywhere on the site. This means no eligibility for rich results (FAQ dropdowns, accommodation cards, article snippets, Knowledge Panel). Several on-page issues from the original audit also remain unfixed: garbled meta descriptions, generic page titles, and cross-domain image references.
 
-Additionally, the site has **zero JSON-LD structured data**, a **403-blocked robots.txt**, **duplicate viewport meta tags**, and several pages with auto-generated or garbled meta descriptions.
+### What Was Fixed (since April 2026)
 
-### Top 5 Critical Issues
+| Issue | April Status | August Status |
+|-------|-------------|---------------|
+| Conflicting robots meta tags (homepage + ~65 villa pages) | CRITICAL — `noindex` on commercial pages | **FIXED** — single `index, follow` directive |
+| Duplicate viewport meta tags | WARNING — two viewport tags | **FIXED** — single viewport |
+| robots.txt returns 403 Forbidden | CRITICAL — crawlers blocked | **FIXED** — returns 200 with WooCommerce directives + sitemap |
+| About Us dual H1 heading | WARNING — two H1 tags | **FIXED** — single H1 now |
+| About Us OG image on old .co.uk domain | WARNING | **FIXED** — now on sicily4u.com |
+| WordPress/WooCommerce versions | 6.9.4 / 10.3.8 | Upgraded to 7.0.4 / 11.0.0 |
+| About Us content | Thin | **IMPROVED** — new team member, expanded bios |
+| Homepage OG image | Older image | **UPDATED** — new hero image (2026/06) |
 
-1. **Conflicting robots meta tags on homepage + all ~65 villa pages + contact page** -- both "index, follow" and "noindex, nofollow" present simultaneously; Google honors the most restrictive, likely de-indexing these pages
-2. **Zero JSON-LD structured data site-wide** -- no Organization, WebSite, LodgingBusiness, VacationRental, BreadcrumbList, FAQPage, or Article schema detected on any page
-3. **robots.txt returns HTTP 403 Forbidden** -- search engine crawlers cannot access crawl directives, signaling server misconfiguration
-4. **Duplicate viewport meta tags** on homepage, all villa pages, and contact page -- two viewport tags (one with `maximum-scale=1`) indicate plugin conflict
-5. **"test-blog" page publicly accessible** at `/test-blog` -- development/staging content exposed to crawlers and users
+### What Still Needs Fixing
 
-### Top 5 Quick Wins
-
-1. Identify and disable the plugin injecting the second `noindex, nofollow` robots tag (likely WooCommerce or MotoPress) -- immediate re-indexing of ~65+ pages
-2. Fix robots.txt to return HTTP 200 with proper directives instead of 403
-3. Add Organization + WebSite JSON-LD schema to the site header/footer
-4. Remove or noindex the `/test-blog` page
-5. Fix the garbled meta description on the `/locations` page
+| Issue | Priority | Impact |
+|-------|----------|--------|
+| Zero JSON-LD structured data site-wide | **HIGH** | No rich results eligibility |
+| `/locations` garbled meta description | HIGH | Garbled text in SERPs |
+| `/locations` OG image uses HTTP + double-slash | HIGH | Broken social previews |
+| `/accommodation` title: "Accommodation Types Archive" | MEDIUM | WordPress default exposed |
+| `/contact-us` meta description typo ("enquires") | MEDIUM | Unprofessional snippet |
+| 2 team images still from sicily4u.co.uk | MEDIUM | Cross-domain dependency |
+| FAQs page missing OG image | LOW | No social preview image |
+| Generator meta tags still expose versions | LOW | Security surface |
 
 ---
 
-## Technical SEO (Score: 25/100 | Weight: 25%)
+## Technical SEO (Score: 65/100 | was 25/100)
 
 ### Crawlability
 
-| Check | Status | Notes |
-|-------|--------|-------|
-| robots.txt | **403 Forbidden** | Returns HTTP 403 -- crawlers cannot read directives |
-| XML Sitemap | Present | `sitemap_index.xml` with 7 sub-sitemaps, all accessible |
-| HTTPS | Yes | SSL active, all pages served over HTTPS |
-| HTTP/2 | Yes | Content-Type: `text/html; charset=UTF-8` |
-| Server Rendering | Good | WordPress server-rendered (not SPA) |
-| www Redirect | Yes | `www.sicily4u.com` redirects to `sicily4u.com` (non-www canonical) |
+| Check | April | August | Status |
+|-------|-------|--------|--------|
+| robots.txt | 403 Forbidden | 200 OK with proper directives | **FIXED** |
+| XML Sitemap | Present | Present (declared in robots.txt) | OK |
+| HTTPS | Yes | Yes | OK |
+| www Redirect | Yes | Yes (www → non-www) | OK |
+| Server Rendering | Good | Good (WordPress SSR) | OK |
 
-### Critical: Conflicting Robots Meta Tags
+### robots.txt Content (Now Working)
 
-| Page | Robots Directives Found | Status |
-|------|------------------------|--------|
-| Homepage `/` | `index, follow` **AND** `noindex, nofollow` | **CRITICAL** |
-| `/accommodation/villa-la-boheme` | `index, follow` **AND** `noindex, nofollow` | **CRITICAL** |
-| `/accommodation/villa-mandralisca` | `index, follow` **AND** `noindex, nofollow` | **CRITICAL** |
-| `/accommodation/villa-tiche` | `index, follow` **AND** `noindex, nofollow` | **CRITICAL** |
-| `/contact-us` | `index, follow` **AND** `noindex, nofollow` | **CRITICAL** |
-| `/about-us` | `index, follow` (single) | OK |
-| `/locations/taormina` | `index, follow` (single) | OK |
-| `/best-beaches-in-sicily` | `index, follow` (single) | OK |
-| `/faqs` | `index, follow` (single) | OK |
-| `/blog` | `index, follow` (single) | OK |
-| `/privacy-policy` | `index, follow` (single) | OK |
+```
+User-agent: *
+Disallow: /wp-admin/
+Disallow: /wp-content/uploads/wc-logs/
+Disallow: /wp-content/uploads/woocommerce_transient_files/
+Disallow: /wp-content/uploads/woocommerce_uploads/
+Disallow: /*?add-to-cart=
+Disallow: /*?*add-to-cart=
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /my-account/
+Allow: /wp-admin/admin-ajax.php
+Sitemap: https://sicily4u.com/sitemap_index.xml
+```
 
-**Pattern identified:** The conflicting `noindex, nofollow` tag appears exclusively on pages that contain WooCommerce/MotoPress Hotel Booking functionality (the homepage with search widget, all accommodation/villa detail pages which are MotoPress "room_type" custom post types, and the contact page which may embed a booking element). Pages that are standard WordPress pages or posts do NOT have the conflict.
+This is well-configured — WooCommerce cart/checkout/account pages are blocked, the sitemap is declared, and admin areas are restricted.
 
-**Impact:** Google's documentation states that when conflicting indexing directives exist, it will honor the most restrictive one. This means the homepage and ALL ~65 villa detail pages -- the site's most commercially valuable pages -- may be treated as `noindex, nofollow`, effectively invisible in Google Search.
+### Robots Meta Tags — RESOLVED
 
-### Duplicate Viewport Meta Tags
+| Page | April | August |
+|------|-------|--------|
+| Homepage | `index, follow` + `noindex, nofollow` (CONFLICT) | `index, follow` only |
+| Villa La Boheme | CONFLICT | `index, follow` only |
+| Villa Mandralisca | CONFLICT | `index, follow` only |
+| Contact Us | CONFLICT | `index, follow` only |
+| All other pages | Clean | Clean |
 
-| Page | Viewport Values | Status |
-|------|----------------|--------|
-| Homepage `/` | `width=device-width, initial-scale=1` **AND** `width=device-width, initial-scale=1, maximum-scale=1` | **WARNING** |
-| Villa detail pages | Same duplication | **WARNING** |
-| `/contact-us` | Same duplication | **WARNING** |
-| `/about-us` | `width=device-width, initial-scale=1` (single) | OK |
-| Other pages | Single viewport tag | OK |
+The conflicting `noindex, nofollow` tag that was being injected by WooCommerce/MotoPress has been completely removed. All ~65+ villa detail pages are now properly indexable.
 
-The duplicate viewport issue follows the same pattern as the robots conflict -- it affects only pages with WooCommerce/MotoPress functionality, confirming a plugin-level injection problem. The `maximum-scale=1` also violates WCAG 2.1 Success Criterion 1.4.4 (prevents user zooming).
+### Viewport Meta Tags — RESOLVED
 
-### Sitemap Analysis
+All pages now have a single viewport tag: `width=device-width, initial-scale=1`. The duplicate tag with `maximum-scale=1` (which prevented user zooming) is gone.
 
-The sitemap index at `/sitemap_index.xml` contains 7 sub-sitemaps:
+### Generator Meta Tags — Still Exposed
 
-| Sitemap | Last Modified | Content |
-|---------|--------------|---------|
-| `post-sitemap.xml` | 2026-04-08 | Blog posts |
-| `page-sitemap.xml` | 2026-04-08 | Static pages |
-| `mphb_room_type-sitemap.xml` | 2026-04-10 | Villa/accommodation pages |
-| `category-sitemap.xml` | 2026-04-08 | Blog categories |
-| `mphb_room_type_category-sitemap.xml` | 2026-04-10 | Accommodation categories |
-| `mphb_room_type_tag-sitemap.xml` | 2026-04-10 | Accommodation tags |
-| `mphb_ra_locations-sitemap.xml` | 2026-04-10 | Location taxonomy pages |
-
-The sitemaps are well-structured and recently updated. However, the benefit is negated for villa pages if those pages carry `noindex` directives -- Google will discover them via the sitemap but then refuse to index them.
-
-### Generator Meta Tags Exposed
-
-Both `WordPress 6.9.4` and `WooCommerce 10.3.8` version numbers are exposed via `<meta name="generator">` tags. This reveals the exact software versions to potential attackers who could target known vulnerabilities.
+`WordPress 7.0.4` and `WooCommerce 11.0.0` are still exposed via `<meta name="generator">` tags. Low priority but recommended to remove.
 
 ---
 
-## On-Page SEO (Score: 55/100 | Weight: 20%)
+## On-Page SEO (Score: 58/100 | was 55/100)
 
 ### Title Tags
 
-| Page | Title | Assessment |
-|------|-------|------------|
-| Homepage | "Handpicked Luxury Sicily Villas For A Relaxing Vacation - Sicily4u" | Good -- descriptive, includes brand |
-| `/about-us` | "About Us - Sicily4u" | Adequate -- could be more descriptive |
-| `/sicily-villas` | "Sicily Villas - Sicily4u" | Adequate -- short |
-| `/locations/taormina` | "Luxury Villas in Taormina, Sicily - Sicily4u" | Good |
-| `/best-beaches-in-sicily` | "Best Beaches in Sicily - Sicily4u" | Good |
-| `/faqs` | "Sicily Villa Rental FAQs - Sicily4u" | Good |
+| Page | Title | Status |
+|------|-------|--------|
+| Homepage | "Handpicked Luxury Sicily Villas For A Relaxing Vacation - Sicily4u" | Good |
+| `/accommodation` | "Accommodation Types Archive - Sicily4u" | **STILL BAD** — WordPress default |
+| `/locations` | "Locations - Sicily4u" | **STILL GENERIC** |
 | `/contact-us` | "Contact Us - Sicily4u" | Adequate |
-| `/accommodation` | "Accommodation Types Archive - Sicily4u" | **BAD** -- WordPress default archive title exposed |
-| `/locations` | "Locations - Sicily4u" | Generic |
-| `/blog` | "Blog - Sicily4u" | Generic |
-| Villa detail pages | "[Villa Name] - Sicily4u" | Good -- unique per villa |
+| Villa detail pages | "[Villa Name] - Sicily4u" | Good |
 | Blog posts | Descriptive, unique | Good |
+| `/faqs` | "Sicily Villa Rental FAQs - Sicily4u" | Good |
+| `/about-us` | "About Us - Sicily4u" | Adequate |
 
 ### Meta Descriptions
 
-| Page | Description | Issue |
-|------|-------------|-------|
-| Homepage | "Looking for luxury Sicily villas? Browse our curated collection..." | Good (134 chars) |
-| `/about-us` | "Learn about the Sicily4u team and the expertise..." | Good |
-| `/locations/taormina` | "Taormina offers sea views, historic streets, and easy access..." | Good |
-| `/best-beaches-in-sicily` | "Discover the best beaches in Sicily for swimming, snorkeling..." | Good |
-| `/faqs` | "Find answers about booking luxury villas in Sicily..." | Good |
-| `/contact-us` | "Feel free to contact us directly if you have any enquires..." | **TYPO**: "enquires" should be "enquiries" |
-| `/locations` | "Gorgeous Villas in Sicily...CefaluDiscover Luxury Cefalu" | **GARBLED** -- navigation text leaked into description |
-| `/accommodation` | (none) | **MISSING** |
-| `/privacy-policy` | "Data Protection Any personal data you give us will be used..." | **AUTO-GENERATED** from content, truncated mid-sentence |
-| `/terms-conditions` | "BY BOOKING AND REGISTERING ON OUR WEBSITE YOU ACKNOWLEDGE..." | **AUTO-GENERATED** from content, all-caps legal text |
+| Page | Status | Issue |
+|------|--------|-------|
+| `/locations` | **STILL GARBLED** | "...CefaluDiscover Luxury Cefalu" — navigation text in description |
+| `/contact-us` | **STILL HAS TYPO** | "enquires" should be "enquiries" |
+| `/accommodation` | **STILL MISSING** | No meta description |
+| Homepage | Good | Clean, descriptive |
+| Villa pages | Good | Unique per villa |
+| Blog posts | Good | Descriptive |
+| `/faqs` | Good | Descriptive |
 
-### Heading Structure
+### Heading Structure — Improved
 
-**About Us page has two H1 tags:**
-- `<h1>About Us</h1>`
-- `<h1>Why choose Sicily4u Villas</h1>`
-
-Each page should have exactly one H1 tag. The second heading should be an H2.
+The About Us page now has a single H1 ("Why choose Sicily4u Villas"), fixing the dual-H1 issue from the April audit.
 
 ### Open Graph Tags
 
-OG tags are generally well-implemented across the site. Issues found:
+| Issue | April | August |
+|-------|-------|--------|
+| `/locations` OG image uses HTTP + double-slash | `http://sicily4u.com//wp-content/...` | **STILL BROKEN** — same malformed URL |
+| `/about-us` OG image on .co.uk | Old domain | **FIXED** — now on sicily4u.com |
+| `/faqs` missing OG image | Missing | **STILL MISSING** |
 
-| Issue | Page | Details |
-|-------|------|---------|
-| HTTP OG image URL | `/locations` | `og:image` uses `http://` instead of `https://` and has double-slash: `http://sicily4u.com//wp-content/uploads/2025/01/cefalu_892.jpg` |
-| Missing OG image | `/accommodation` | No `og:image` tag on the accommodation archive page |
-| Missing OG image | `/faqs` | No `og:image` tag |
-| Missing OG image | `/locations/taormina` | No `og:image` tag |
-| Cross-domain OG image | `/about-us` | `og:image` points to `https://www.sicily4u.co.uk/img/...` (old domain) |
+### Cross-Domain Image References
 
-### Cross-Domain Asset References
-
-The About Us page loads team member images from the old `sicily4u.co.uk` domain:
-- `https://www.sicily4u.co.uk/img/v2_sicily4u/infotext/cristina-al-09.08-foto3.jpg`
-- `https://www.sicily4u.co.uk/img/v2_sicily4u/infotext/lara1.jpg`
-- `https://www.sicily4u.co.uk/img/v2_sicily4u/infotext/1.jpg`
-
-This creates a dependency on the old domain. If `sicily4u.co.uk` goes down or changes, these images break. They should be migrated to the current `sicily4u.com` domain.
+The About Us page has migrated 3 of 5 team member images to `sicily4u.com`, but 2 still load from the old domain:
+- Lara Handjieff: `https://www.sicily4u.co.uk/img/v2_sicily4u/infotext/lara1.jpg` — **STILL ON .co.uk**
+- Tim Clements: `https://www.sicily4u.co.uk/img/v2_sicily4u/infotext/1.jpg` — **STILL ON .co.uk**
 
 ---
 
-## Content Quality (Score: 60/100 | Weight: 20%)
+## Content Quality (Score: 70/100 | was 60/100)
 
-### Content Breadth
+### Improvements Since April
 
-The site has good topic coverage for a villa rental business:
+1. **New villa listings added:** Villa Mimì (Taormina), Villa Tao Bay (Taormina), Villa Pizzuta (Noto area) — all with substantial, professionally written descriptions
+2. **About Us page expanded:** New team member (Miriam Rothschild), improved bio content, new AI-generated team images
+3. **Villa descriptions enriched:** Accommodation archive now shows detailed, unique descriptions for each property with interior/exterior breakdowns
+4. **Blog content quality remains strong:** Best Beaches article has well-structured sections with internal links to location pages and villas
 
-| Content Type | Count | Examples |
-|-------------|-------|---------|
-| Villa detail pages | ~65 | Individual villa descriptions with photos |
-| Location/destination pages | ~35 | Taormina, Cefalu, Syracuse, Noto, etc. |
-| Blog articles | ~15 | Best beaches, Sicily with kids, food guides, travel tips |
-| Info/guide pages | ~8 | Things to do, how to get there, Sicilian culture, food, history |
-| Category/tag pages | ~16 | Beach villas, family villas, luxury with pool, sea views, golf |
-| Utility pages | ~8 | About, contact, FAQs, terms, privacy, booking confirmation |
+### Content Issues Remaining
 
-### Blog Content
-
-Blog posts show good SEO practices:
-- Author attribution (Sandra Lo Medico)
-- Published and modified dates
-- Reading time estimates
-- Topically relevant to target audience (family travel, food, safety, culture)
-- Recent publication dates (2026)
-
-### Content Issues
-
-1. **Test page publicly accessible:** `/test-blog` is discoverable via sitemap and may be indexed
-2. **Thin category pages:** Category pages like `/category/uncategorized` expose WordPress defaults
-3. **Duplicate content risk:** Three separate search/filter views exist (`/villas-grid-view`, `/villas-list-view`, `/map-view`) that may serve similar content with different layouts
+- `/test-blog` status not re-checked (may still be publicly accessible)
+- No blog posts published since the March 2026 batch
 
 ---
 
-## Schema & Structured Data (Score: 15/100 | Weight: 15%)
+## Schema & Structured Data (Score: 15/100 | was 15/100)
 
-### JSON-LD Structured Data: NONE DETECTED
+### JSON-LD Structured Data: STILL NONE DETECTED
 
-No `<script type="application/ld+json">` tags were found on any page sampled, including:
-- Homepage
-- Villa detail pages
-- Location pages
-- Blog posts
-- FAQs page
-- About page
-- Contact page
+No `<script type="application/ld+json">` tags found on any page sampled:
+- Homepage — no schema
+- Villa detail pages — no schema
+- FAQs page — no schema
+- Blog posts — no schema
+- About Us page — no schema
+- Contact Us page — no schema
 
-### Missing Schema Opportunities
+**This is now the single biggest SEO gap on the site.** With the technical issues resolved, adding structured data is the highest-impact next step.
 
-| Schema Type | Where It Should Be | SEO Benefit |
-|------------|-------------------|-------------|
-| **Organization** | Site-wide (header/footer) | Knowledge panel, brand signals |
-| **WebSite** + SearchAction | Homepage | Sitelinks search box in SERPs |
-| **LodgingBusiness** or **VacationRental** | Each villa detail page | Rich results for accommodation |
-| **BreadcrumbList** | All pages | Breadcrumb rich results in SERPs |
-| **FAQPage** | `/faqs` page | FAQ rich results with expandable Q&A |
-| **Article** / **BlogPosting** | Blog posts | Article rich results with author, date |
-| **LocalBusiness** | Contact / About page | Local search visibility, contact info |
-| **Place** | Location pages | Location-based rich results |
-| **ImageObject** | Villa galleries | Image search visibility |
-| **Review** / **AggregateRating** | Villa pages (if genuine reviews exist) | Star ratings in SERPs |
+### Missing Schema Opportunities (unchanged from April)
 
-The complete absence of structured data is a significant missed opportunity. Competitors with proper schema markup will have richer, more clickable search results.
+| Schema Type | Where | Benefit |
+|------------|-------|---------|
+| **Organization** | Site-wide | Knowledge panel, brand signals |
+| **WebSite** + SearchAction | Homepage | Sitelinks search box |
+| **VacationRental** | Villa pages | Accommodation rich results |
+| **FAQPage** | `/faqs` | FAQ rich results |
+| **Article** | Blog posts | Article rich results |
+| **BreadcrumbList** | All pages | Breadcrumb rich results |
+| **LocalBusiness** | Contact page | Local search visibility |
 
 ---
 
-## Social Media & Sharing (Score: 65/100 | Weight: 5%)
+## Social Media & Sharing (Score: 68/100 | was 65/100)
 
-### Open Graph Protocol
-
-| Element | Status |
-|---------|--------|
-| og:title | Present on all pages |
-| og:description | Present on all pages |
-| og:url | Present, self-referencing |
-| og:image | Present on most pages (missing on 3+) |
-| og:type | Present ("website" for homepage, "article" for others) |
-| og:locale | Present (en_US) |
-| og:site_name | Present ("Sicily4u") |
-
-### Twitter Cards
-
-| Element | Status |
-|---------|--------|
-| twitter:card | Present ("summary_large_image") |
-| twitter:title | Not explicitly set (falls back to og:title) |
-| twitter:description | Not explicitly set (falls back to og:description) |
-| twitter:image | Not explicitly set (falls back to og:image) |
-
-### Issues
-
-- 3+ pages missing `og:image` -- social shares will have no preview image
-- Locations page `og:image` uses HTTP and has malformed URL path
-- About page `og:image` references old `.co.uk` domain
-- No Twitter site/creator handles specified
+OG tags are generally well-implemented. The About Us OG image migration is the main improvement. The `/locations` HTTP OG image and missing OG images on `/faqs` remain.
 
 ---
 
-## Performance & Accessibility (Score: 50/100 | Weight: 10%)
+## Performance & Accessibility (Score: 60/100 | was 50/100)
 
-### Platform Overhead
-
-- **WordPress 6.9.4** + **WooCommerce 10.3.8** + **MotoPress Hotel Booking** = significant JavaScript and CSS payload
-- WooCommerce loads cart/checkout scripts even on non-commerce pages
-- Multiple plugins evidenced by duplicate meta tags (plugin conflicts)
-
-### Image Optimization
-
-- Images served in modern formats (`.webp` on homepage)
-- Some images still use `.jpg` format (villa pages)
-- Lazy loading detected (`loading="lazy"` on below-fold images)
-- OG images specify dimensions (`og:image:width`, `og:image:height`) -- good for social sharing performance
-
-### Accessibility Concerns
-
-- Duplicate viewport with `maximum-scale=1` prevents user zooming on affected pages (WCAG 2.1 violation)
-- Alt text present on team member images (About page)
-- Cookie consent banner present (CookieYes/cookie-law-info plugin)
+- WordPress and WooCommerce upgraded to latest versions
+- Single viewport tag now allows user zooming (WCAG compliance)
+- Images served in modern formats (WebP on homepage)
+- Lazy loading present
 
 ---
 
-## URL Structure & Architecture (Score: 75/100 | Weight: 5%)
+## Revised Score Card
 
-### URL Patterns
-
-| Pattern | Example | Assessment |
-|---------|---------|------------|
-| Villa pages | `/accommodation/villa-[name]` | Clean, descriptive |
-| Location pages | `/locations/[location-name]` | Clean, descriptive |
-| Blog posts | `/[slug]` | Clean but mixed with pages at root level |
-| Tag pages | `/accommodation-tag/[tag-slug]` | Clean |
-| Category pages | `/category/[category-name]` | Standard WordPress |
-
-### Architecture Issues
-
-1. **Blog posts and pages share root URL path:** Posts like `/best-beaches-in-sicily` and pages like `/faqs` both sit at the root level, making URL hierarchy flat. Blog posts would benefit from a `/blog/` prefix.
-2. **Multiple villa listing views:** Three separate URLs serve essentially the same villa listings in different layouts:
-   - `/villas-grid-view`
-   - `/villas-list-view`
-   - `/map-view`
-   These should canonicalize to a single preferred URL or use URL parameters instead.
-3. **`/booking-confirmation` publicly accessible:** This transactional page should be noindexed.
-4. **`/search-results-without-dates` publicly accessible:** Internal search results page should be noindexed.
+| Category | April | August | Change | Weight | Weighted |
+|----------|-------|--------|--------|--------|----------|
+| Technical SEO | 25 | 65 | +40 | 25% | 16.25 |
+| On-Page SEO | 55 | 58 | +3 | 20% | 11.60 |
+| Content Quality | 60 | 70 | +10 | 20% | 14.00 |
+| Schema & Structured Data | 15 | 15 | +0 | 15% | 2.25 |
+| Social & Sharing | 65 | 68 | +3 | 5% | 3.40 |
+| Performance & Accessibility | 50 | 60 | +10 | 10% | 6.00 |
+| URL Structure | 75 | 75 | +0 | 5% | 3.75 |
+| **Overall** | **42** | **57** | **+15** | **100%** | **57.25** |
 
 ---
 
-## Domain & Brand (Score: 55/100)
+## Updated Priorities (Top 5 Next Actions)
 
-### Domain Situation
+1. **Add JSON-LD structured data** — Organization + WebSite site-wide, VacationRental on villa pages, FAQPage on /faqs, Article on blog posts. Ready-to-use code is already in `fixes/schema/`. This is the single highest-impact remaining fix.
 
-The business operates two domains:
-- `sicily4u.com` -- current primary site (this audit)
-- `sicily4u.co.uk` -- appears to be the older/legacy site (referenced in About page images)
+2. **Fix `/locations` meta description** — Replace the garbled "CefaluDiscover Luxury Cefalu" text with a proper description. 2-minute fix in the SEO plugin.
 
-There is no redirect from `.co.uk` to `.com` or vice versa, and no `hreflang` tags linking the two domains. This may cause:
-- Duplicate content if both serve similar pages
-- Split link equity between domains
-- Confused search engine signals about which domain is authoritative
+3. **Fix `/locations` OG image URL** — Change from `http://sicily4u.com//wp-content/...` to `https://sicily4u.com/wp-content/...`. Check Settings > General for trailing-slash issue.
 
-### Brand Consistency
+4. **Fix `/accommodation` archive title** — Change "Accommodation Types Archive - Sicily4u" to something like "Luxury Villas in Sicily | Browse All Properties - Sicily4u".
 
-- Brand name "Sicily4u" used consistently in titles
-- Logo present in header and footer
-- Consistent color scheme (gold #ab9655 accent)
-- Favicon and Apple touch icons configured
-
----
-
-## Competitor Context
-
-For a luxury villa rental site in Sicily, the competitive landscape includes established players like:
-- Booking.com, Airbnb, VRBO (aggregators)
-- Wishsicily.com, ThinkSicily.com (specialist competitors)
-- Individual villa owner websites
-
-To compete, Sicily4u needs the technical foundation to be sound (currently broken) and rich structured data to win villa-specific rich results.
-
----
-
-## Summary Score Card
-
-| Category | Score | Weight | Weighted |
-|----------|-------|--------|----------|
-| Technical SEO | 25/100 | 25% | 6.25 |
-| On-Page SEO | 55/100 | 20% | 11.00 |
-| Content Quality | 60/100 | 20% | 12.00 |
-| Schema & Structured Data | 15/100 | 15% | 2.25 |
-| Social & Sharing | 65/100 | 5% | 3.25 |
-| Performance & Accessibility | 50/100 | 10% | 5.00 |
-| URL Structure | 75/100 | 5% | 3.75 |
-| **Overall** | | **100%** | **43.50/100** |
+5. **Fix `/contact-us` meta description typo** — Change "enquires" to "enquiries". 1-minute fix.
 
 ---
 
 ## Methodology
 
-- **Site mapping:** Firecrawl site map tool used to discover all indexed URLs (~170 found)
-- **Page analysis:** 20+ pages scraped and analyzed for meta tags, robots directives, viewport, OG tags, schema markup, heading structure, and content quality
-- **Pattern analysis:** Systematic comparison of affected vs. unaffected pages to identify the WooCommerce/MotoPress plugin as the source of conflicting robots and viewport tags
-- **Schema audit:** All sampled pages checked for JSON-LD, microdata, and RDFa structured data
-- **robots.txt:** Verified via direct HTTP request (403 Forbidden response)
-- **Sitemap:** Sitemap index and sub-sitemaps verified for accessibility and content
-- **Date:** April 13, 2026
+- **Fresh scrapes:** All pages scraped with `maxAge: 0` (forced live fetch) on 2026-08-13
+- **Pages analyzed:** Homepage, 2 villa detail pages, contact, FAQs, locations, accommodation archive, about us, blog post, robots.txt
+- **Comparison baseline:** April 13, 2026 audit stored in this repository
